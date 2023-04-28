@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView_adult"
+        android:layout_width="110dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/adult"
+        android:textSize="40sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/adult_num"
+        android:layout_width="110dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="30dp"
+        android:textSize="40sp"
+        app:layout_constraintStart_toEndOf="@+id/textView_adult"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_child"
+        android:layout_width="110dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/child"
+        android:textSize="40sp"
+        app:layout_constraintStart_toEndOf="@+id/adult_num"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/child_num"
+        android:layout_width="110dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="30dp"
+        android:textSize="50sp"
+        app:layout_constraintStart_toEndOf="@+id/textView_child"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="40dp"
+        android:columnCount="5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <Button
+            android:id="@+id/adult1"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="@string/adult1"
+            android:textSize="24sp" />
+
+
+        <Button
+            android:id="@+id/adult2"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:text="@string/adult2"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/adult3"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:text="@string/adult3"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/adult4"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:text="@string/adult4"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/adult_input"
+            android:layout_width="220dp"
+            android:layout_height="80dp"
+            android:layout_row="0"
+            android:layout_column="4"
+            android:text="@string/adult_input"
+            android:textSize="24sp" />
+
+
+        <Button
+            android:id="@+id/child1"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:text="@string/child1"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/child2"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:text="@string/child2"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/child3"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:text="@string/child3"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/child4"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_row="1"
+            android:layout_column="3"
+            android:text="@string/child4"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/child_input"
+            android:layout_width="220dp"
+            android:layout_height="80dp"
+            android:layout_row="1"
+            android:layout_column="4"
+            android:text="@string/child_input"
+            android:textSize="24sp" />
+
+
+    </GridLayout>
+
+<!--    <GridView-->
+<!--        android:id="@+id/grid_view"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:layout_marginBottom="32dp"-->
+<!--        android:numColumns="2"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="@id/gridLayout"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/gridLayout" >-->
+
+<!--    </GridView>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/gridLayout"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

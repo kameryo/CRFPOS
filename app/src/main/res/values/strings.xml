@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">CRFPOS</string>
+    <string name="adult1">大人1</string>
+    <string name="adult2">大人2</string>
+    <string name="adult3">大人3</string>
+    <string name="adult4">大人4</string>
+    <string name="child1">子供1</string>
+    <string name="child2">子供2</string>
+    <string name="child3">子供3</string>
+    <string name="child4">子供4</string>
+    <string name="adult">大人</string>
+    <string name="child">子供</string>
+    <string name="adult_input">大人 入力</string>
+    <string name="child_input">子供 入力</string>
+
+</resources>
