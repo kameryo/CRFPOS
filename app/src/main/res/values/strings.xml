@@ -12,5 +12,8 @@
     <string name="child">子供</string>
     <string name="adult_input">大人 入力</string>
     <string name="child_input">子供 入力</string>
+    <string name="adult0">大人0</string>
+    <string name="child0">子供0</string>
+    <string name="back_to_home">ホームに戻る</string>
 
 </resources>

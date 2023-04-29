@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
-        android:columnCount="5"
+        android:columnCount="6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,11 +96,20 @@
             android:textSize="24sp" />
 
         <Button
-            android:id="@+id/adult_input"
-            android:layout_width="220dp"
+            android:id="@+id/adult0"
+            android:layout_width="110dp"
             android:layout_height="80dp"
             android:layout_row="0"
             android:layout_column="4"
+            android:text="@string/adult0"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/adult_input"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
+            android:layout_row="0"
+            android:layout_column="5"
             android:text="@string/adult_input"
             android:textSize="24sp" />
 
@@ -142,11 +151,20 @@
             android:textSize="24sp" />
 
         <Button
-            android:id="@+id/child_input"
-            android:layout_width="220dp"
+            android:id="@+id/child0"
+            android:layout_width="110dp"
             android:layout_height="80dp"
             android:layout_row="1"
             android:layout_column="4"
+            android:text="@string/child0"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/child_input"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
+            android:layout_row="1"
+            android:layout_column="5"
             android:text="@string/child_input"
             android:textSize="24sp" />
 
