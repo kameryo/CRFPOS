@@ -1,8 +1,15 @@
 package com.example.crfpos.page.sales
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.ProductAdapter
@@ -17,6 +24,25 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_sales, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_home -> {
+                        findNavController().popBackStack()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         this._binding = SalesFragmentBinding.bind(view)
 
         val productList = listOf<Product>(
@@ -31,4 +57,8 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        this._binding  = null
+    }
 }
