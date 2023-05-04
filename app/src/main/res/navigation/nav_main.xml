@@ -15,9 +15,32 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_stockFragment"
+            app:destination="@id/stockFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/salesFragment"
         android:name="com.example.crfpos.page.sales.SalesFragment"
         android:label="SalesFragment" />
+    <fragment
+        android:id="@+id/stockFragment"
+        android:name="com.example.crfpos.page.stock.StockFragment"
+        android:label="StockFragment" >
+        <action
+            android:id="@+id/action_stockFragment_to_addStockFragment"
+            app:destination="@id/addStockFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/addStockFragment"
+        android:name="com.example.crfpos.page.stock.add.AddStockFragment"
+        android:label="AddStockFragment" />
 </navigation>

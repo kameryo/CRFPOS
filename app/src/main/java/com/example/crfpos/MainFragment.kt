@@ -20,5 +20,9 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         binding.buttonSales.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_salesFragment)
         }
+
+        binding.buttonStock.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_stockFragment)
+        }
     }
 }

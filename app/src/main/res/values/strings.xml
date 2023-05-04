@@ -15,5 +15,8 @@
     <string name="adult0">大人0</string>
     <string name="child0">子供0</string>
     <string name="back_to_home">ホームに戻る</string>
+    <string name="add">add</string>
+    <string name="save">完了</string>
+    <string name="back">戻る</string>
 
 </resources>

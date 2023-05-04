@@ -1,4 +1,4 @@
-package com.example.crfpos.page.sales
+package com.example.crfpos.page.stock.add
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,33 +8,39 @@ import android.view.View
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.crfpos.ProductAdapter
 import com.example.crfpos.R
-import com.example.crfpos.databinding.SalesFragmentBinding
-import com.example.crfpos.medel.product.Product
+import com.example.crfpos.databinding.AddStockFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class SalesFragment : Fragment(R.layout.sales_fragment) {
+@AndroidEntryPoint
+class AddStockFragment : Fragment(R.layout.add_stock_fragment) {
+    private val vm: AddViewModel by viewModels()
 
-    private var _binding: SalesFragmentBinding? = null
-    private val binding: SalesFragmentBinding get() = _binding!!
+    private var _binding: AddStockFragmentBinding? = null
+    private val binding: AddStockFragmentBinding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this._binding = AddStockFragmentBinding.bind(view)
 
         val menuHost: MenuHost = requireActivity()
 
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_sales, menu)
+                menuInflater.inflate(R.menu.menu_add_stock, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_home -> {
+                    R.id.action_done -> {
+                        add()
+                        findNavController().popBackStack()
+                        true
+                    }
+                    R.id.action_back -> {
                         findNavController().popBackStack()
                         true
                     }
@@ -42,23 +48,13 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
-        this._binding = SalesFragmentBinding.bind(view)
-
-        val productList = listOf<Product>(
-            Product(0,"A", 10),
-            Product(1,"B", 20),
-            Product(2,"C", 30),
-            Product(3,"D", 40)
-        )
-
-        binding.recycler.adapter = ProductAdapter(productList)
-        binding.recycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        this._binding  = null
+    private fun add() {
+        val name = binding.nameEdit.text.toString()
+        val price = binding.priceEdit.text.toString().toInt()
+        val quantity = binding.quantityEdit.text.toString().toInt()
+
+        vm.add(name, price, quantity)
     }
 }
