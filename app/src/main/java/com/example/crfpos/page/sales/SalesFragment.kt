@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.ProductAdapter
 import com.example.crfpos.R
 import com.example.crfpos.databinding.SalesFragmentBinding
-import com.example.crfpos.medel.product.Product
+import com.example.crfpos.model.product.Product
 
 class SalesFragment : Fragment(R.layout.sales_fragment) {
 

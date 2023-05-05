@@ -1,7 +1,6 @@
 package com.example.crfpos.page.stock
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -16,8 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crfpos.R
 import com.example.crfpos.StockAdapter
 import com.example.crfpos.databinding.StockFragmentBinding
-import com.example.crfpos.databinding.StockItemBinding
-import com.example.crfpos.medel.stock.Stock
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,8 +50,13 @@ class StockFragment : Fragment(R.layout.stock_fragment) {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val adapter = StockAdapter()
-        binding.stockRecycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val adapter = StockAdapter{
+            val action = StockFragmentDirections.actionStockFragmentToEditStockFragment(it)
+            findNavController().navigate(action)
+        }
+
+        binding.stockRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.stockRecycler.adapter = adapter
 
         vm.stockList.observe(viewLifecycleOwner) { stock ->

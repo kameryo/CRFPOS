@@ -1,6 +1,6 @@
 package com.example.crfpos.repository.product
 
-import com.example.crfpos.medel.stock.Stock
+import com.example.crfpos.model.stock.Stock
 import kotlinx.coroutines.flow.Flow
 
 interface StockRepository {

@@ -1,7 +1,7 @@
 package com.example.crfpos.repository.product
 
-import com.example.crfpos.medel.stock.Stock
-import com.example.crfpos.medel.stock.StockDao
+import com.example.crfpos.model.stock.Stock
+import com.example.crfpos.model.stock.StockDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

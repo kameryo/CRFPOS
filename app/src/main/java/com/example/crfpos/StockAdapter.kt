@@ -6,15 +6,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.databinding.StockItemBinding
-import com.example.crfpos.medel.stock.Stock
+import com.example.crfpos.model.stock.Stock
 
-class StockAdapter() : ListAdapter<Stock, StockAdapter.ViewHolder>(callback) {
+class StockAdapter(
+    private val listener: (Stock) -> Unit
+) : ListAdapter<Stock, StockAdapter.ViewHolder>(callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = StockItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ViewHolder(view)
+        val viewHolder = ViewHolder(view)
+
+        view.root.setOnClickListener {
+            val position = viewHolder.bindingAdapterPosition
+            val stock = getItem(position)
+            listener(stock)
+        }
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

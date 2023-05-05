@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.crfpos.medel.product.Product
+import com.example.crfpos.model.product.Product
 
 
 class ProductAdapter(private val productList: List<Product>) :

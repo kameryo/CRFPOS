@@ -1,4 +1,4 @@
-package com.example.crfpos.medel.stock
+package com.example.crfpos.model.stock
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

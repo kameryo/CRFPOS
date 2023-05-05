@@ -1,8 +1,7 @@
-package com.example.crfpos.medel.stock
+package com.example.crfpos.model.stock
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 

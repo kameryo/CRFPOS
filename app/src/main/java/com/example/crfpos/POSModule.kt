@@ -2,8 +2,8 @@ package com.example.crfpos
 
 import android.content.Context
 import androidx.room.Room
-import com.example.crfpos.medel.stock.StockDao
-import com.example.crfpos.medel.stock.StockDatabase
+import com.example.crfpos.model.stock.StockDao
+import com.example.crfpos.model.stock.StockDatabase
 import com.example.crfpos.repository.product.StockRepository
 import com.example.crfpos.repository.product.StockRepositoryImpl
 import dagger.Binds

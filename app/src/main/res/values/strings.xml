@@ -18,5 +18,6 @@
     <string name="add">add</string>
     <string name="save">完了</string>
     <string name="back">戻る</string>
+    <string name="delete">削除</string>
 
 </resources>
