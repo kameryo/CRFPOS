@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StockDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert
     suspend fun insert(stock: Stock)
 
-    @Query("SELECT * FROM stock_table ORDER BY _id")
+    @Query("SELECT * FROM Stock ORDER BY _id")
     fun getAll(): Flow<List<Stock>>
 }

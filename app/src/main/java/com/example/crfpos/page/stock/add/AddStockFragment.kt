@@ -13,6 +13,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.crfpos.R
 import com.example.crfpos.databinding.AddStockFragmentBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,7 +38,6 @@ class AddStockFragment : Fragment(R.layout.add_stock_fragment) {
                 return when (menuItem.itemId) {
                     R.id.action_done -> {
                         add()
-                        findNavController().popBackStack()
                         true
                     }
                     R.id.action_back -> {
@@ -48,13 +48,25 @@ class AddStockFragment : Fragment(R.layout.add_stock_fragment) {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+
+        vm.errorMessage.observe(viewLifecycleOwner) { msg ->
+            if (msg.isEmpty()) return@observe
+            Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show()
+            vm.errorMessage.value = ""
+        }
+
+        vm.done.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
+        }
+
     }
 
     private fun add() {
         val name = binding.nameEdit.text.toString()
-        val price = binding.priceEdit.text.toString().toInt()
-        val quantity = binding.quantityEdit.text.toString().toInt()
+        val priceStr = binding.priceEdit.text.toString()
+        val quantityStr = binding.quantityEdit.text.toString()
 
-        vm.add(name, price, quantity)
+        vm.add(name, priceStr, quantityStr)
     }
 }

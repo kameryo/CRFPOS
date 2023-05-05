@@ -16,7 +16,7 @@ class StockRepositoryImpl @Inject constructor(
     }
 
     override suspend fun add(name: String, price: Int, quantity: Int) {
-        val stock = Stock(_id = 1, name, price = price, quantity = quantity)
+        val stock = Stock(name = name, price = price, quantity = quantity)
         withContext(Dispatchers.IO) {
             dao.insert(stock)
         }

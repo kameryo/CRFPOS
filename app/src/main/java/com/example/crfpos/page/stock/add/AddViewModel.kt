@@ -12,27 +12,30 @@ import javax.inject.Inject
 class AddViewModel @Inject constructor(
     private val repo: StockRepository
 ) : ViewModel() {
-    private val errorMessage = MutableLiveData<String>()
+    val errorMessage = MutableLiveData<String>()
+    val done = MutableLiveData<Boolean>()
 
-    fun add(name: String, price: Int, quantity: Int) {
+    fun add(name: String, priceStr: String, quantityStr: String) {
         if (name.trim().isEmpty()) {
             errorMessage.value = "Please input name"
             return
         }
 
-        if (price.toString().trim().isEmpty()) {
+        if (priceStr.trim().isEmpty()) {
             errorMessage.value = "Please input price"
             return
         }
 
-        if (quantity.toString().trim().isEmpty()) {
+        if (quantityStr.trim().isEmpty()) {
             errorMessage.value = "Please input quantity"
             return
         }
 
         viewModelScope.launch {
             try {
-                repo.add(name, price, quantity)
+                repo.add(name, priceStr.toInt(), quantityStr.toInt())
+                errorMessage.value = "success!"
+                done.value = true
             } catch (e: Exception) {
                 errorMessage.value = e.message
             }
