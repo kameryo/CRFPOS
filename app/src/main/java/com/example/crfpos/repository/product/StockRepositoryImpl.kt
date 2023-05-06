@@ -22,5 +22,9 @@ class StockRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun delete(stock: Stock) {
+        dao.delete(stock)
+    }
+
 
 }

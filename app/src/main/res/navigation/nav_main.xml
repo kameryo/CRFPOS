@@ -57,5 +57,16 @@
         <argument
             android:name="stock"
             app:argType="com.example.crfpos.model.stock.Stock" />
+        <action
+            android:id="@+id/action_editStockFragment_to_confirmDialogFragment"
+            app:destination="@id/confirmDialogFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+    <dialog
+        android:id="@+id/confirmDialogFragment"
+        android:name="com.example.crfpos.dialog.ConfirmDialogFragment"
+        android:label="ConfirmDialogFragment" />
 </navigation>

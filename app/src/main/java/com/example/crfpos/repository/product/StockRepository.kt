@@ -8,6 +8,8 @@ interface StockRepository {
 
     suspend fun add(name: String, price: Int, quantity: Int)
 
+    suspend fun delete(stock: Stock)
+
 //    suspend fun update(stock: Stock, name: String, price: Int, quantity: Int): Stock
 //
 //    suspend fun delete(stock: Stock)
