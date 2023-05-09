@@ -49,7 +49,7 @@
         android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="200dp"
         android:layout_marginEnd="40dp"
         android:columnCount="6"
         app:layout_constraintEnd_toEndOf="parent"
@@ -171,21 +171,6 @@
 
     </GridLayout>
 
-<!--    <GridView-->
-<!--        android:id="@+id/grid_view"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="32dp"-->
-<!--        android:layout_marginEnd="40dp"-->
-<!--        android:layout_marginBottom="32dp"-->
-<!--        android:numColumns="2"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintLeft_toLeftOf="@id/gridLayout"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/gridLayout" >-->
-
-<!--    </GridView>-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="0dp"
@@ -197,6 +182,30 @@
         app:layout_constraintLeft_toLeftOf="@id/gridLayout"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+    <Button
+        android:id="@+id/adjustment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="40dp"
+        android:text="清算"
+        android:textSize="60sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="合計"
+        android:textSize="60sp"
+        app:layout_constraintEnd_toStartOf="@+id/adjustment"
+        app:layout_constraintStart_toStartOf="@+id/gridLayout"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

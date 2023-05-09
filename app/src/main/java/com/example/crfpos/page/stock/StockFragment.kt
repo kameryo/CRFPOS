@@ -13,7 +13,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crfpos.R
-import com.example.crfpos.StockAdapter
 import com.example.crfpos.databinding.StockFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -50,7 +49,7 @@ class StockFragment : Fragment(R.layout.stock_fragment) {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val adapter = StockAdapter{
+        val adapter = StockAdapter {
             val action = StockFragmentDirections.actionStockFragmentToEditStockFragment(it)
             findNavController().navigate(action)
         }

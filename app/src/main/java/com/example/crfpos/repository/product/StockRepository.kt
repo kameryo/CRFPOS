@@ -12,6 +12,4 @@ interface StockRepository {
 
 //    suspend fun update(stock: Stock, name: String, price: Int, quantity: Int): Stock
 //
-//    suspend fun delete(stock: Stock)
-
 }

@@ -1,4 +1,4 @@
-package com.example.crfpos
+package com.example.crfpos.page.stock
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -10,5 +10,7 @@
 
     <item
         android:id="@+id/action_home"
-        android:title="@string/back_to_home" />
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/back_to_home"
+        app:showAsAction="ifRoom" />
 </menu>
