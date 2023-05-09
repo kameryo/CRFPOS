@@ -86,17 +86,17 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
     private fun updateAdultNum(adultNum: Int) {
         this.adultNum = adultNum
         binding.adultNum.text = adultNum.toString()
-        updateFee()
+        updateFare()
     }
 
     private fun updateChildNum(childNum: Int) {
         this.childNum = childNum
         binding.childNum.text = childNum.toString()
-        updateFee()
+        updateFare()
     }
 
-    private fun updateFee() {
-        var text: String = calculator.calFee(adultNum, childNum).toString()
+    private fun updateFare() {
+        var text: String = calculator.calFare(adultNum, childNum).toString()
         text += " 円"
         binding.sum.text = text
     }
