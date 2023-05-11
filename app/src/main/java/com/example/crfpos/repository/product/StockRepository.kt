@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface StockRepository {
     fun getAll(): Flow<List<Stock>>
 
-    suspend fun add(name: String, price: Int, quantity: Int)
+    suspend fun add(name: String, price: Int, purchases: Int)
 
     suspend fun delete(stock: Stock)
 

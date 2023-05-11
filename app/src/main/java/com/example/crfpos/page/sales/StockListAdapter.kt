@@ -38,9 +38,9 @@ class StockListAdapter(
         private val binding: GoodsItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(stock: Stock) {
-            binding.productNameText.text = stock.name
+            binding.productName.text = stock.name
             val priceText = stock.price.toString() + " 円"
-            binding.priceText.text = priceText
+            binding.price.text = priceText
 //            binding.quantity.text = stock.quantity.toString()
         }
     }

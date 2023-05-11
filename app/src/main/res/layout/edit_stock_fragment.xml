@@ -42,7 +42,7 @@
         android:layout_marginEnd="32dp"
         android:text="価格"
         android:textSize="34sp"
-        app:layout_constraintEnd_toStartOf="@+id/quantity"
+        app:layout_constraintEnd_toStartOf="@+id/purchases"
         app:layout_constraintTop_toBottomOf="@+id/textprice" />
 
     <TextView
@@ -69,7 +69,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/quantity"
+        android:id="@+id/purchases"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"

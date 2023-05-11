@@ -12,10 +12,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.R
 import com.example.crfpos.databinding.SalesFragmentBinding
 import com.example.crfpos.model.calculater.Calculator
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -70,17 +72,40 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         binding.child4.setOnClickListener { updateChildNum(4) }
 
         val stockListAdapter = StockListAdapter {
+            vm.addRequest(it)
         }
 
 //        binding.recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.recycler.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+        binding.stockListRecycler.layoutManager =
+            GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 
-        binding.recycler.adapter = stockListAdapter
+        binding.stockListRecycler.adapter = stockListAdapter
 
         //これがないと表示されない
         vm.stockList.observe(viewLifecycleOwner) { stock ->
             stockListAdapter.submitList(stock)
         }
+
+        val requestAdapter = RequestAdapter {
+            vm.delete(it)
+        }
+
+        binding.goodsSelected.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        binding.goodsSelected.adapter = requestAdapter
+
+        vm.requestList.observe(viewLifecycleOwner) { order ->
+            requestAdapter.submitList(order)
+        }
+
+        vm.errorMessage.observe(viewLifecycleOwner) { msg ->
+            if (msg.isEmpty()) return@observe
+            Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show()
+            vm.errorMessage.value = ""
+        }
+
+
     }
 
     private fun updateAdultNum(adultNum: Int) {
@@ -98,7 +123,7 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
     private fun updateFare() {
         var text: String = calculator.calFare(adultNum, childNum).toString()
         text += " 円"
-        binding.sum.text = text
+        binding.subtotalFare.text = text
     }
 
     override fun onDestroyView() {

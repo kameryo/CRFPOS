@@ -38,7 +38,8 @@ class StockAdapter(
         fun bindTo(stock: Stock) {
             binding.name.text = stock.name
             binding.price.text = stock.price.toString()
-            binding.quantity.text = stock.quantity.toString()
+            binding.purchases.text = stock.purchases.toString()
+            binding.remain.text = stock.remain.toString()
         }
     }
 
