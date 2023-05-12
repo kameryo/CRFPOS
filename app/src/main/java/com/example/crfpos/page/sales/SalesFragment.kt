@@ -97,6 +97,7 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
 
         vm.requestList.observe(viewLifecycleOwner) { order ->
             requestAdapter.submitList(order)
+            updatePriceSum()
         }
 
         vm.errorMessage.observe(viewLifecycleOwner) { msg ->
@@ -124,6 +125,12 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         var text: String = calculator.calFare(adultNum, childNum).toString()
         text += " 円"
         binding.subtotalFare.text = text
+    }
+
+    private fun updatePriceSum() {
+        var text: String = calculator.calPrice(vm.requestList.value).toString()
+        text += " 円"
+        binding.subtotalGoods.text = text
     }
 
     override fun onDestroyView() {

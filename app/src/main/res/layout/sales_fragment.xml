@@ -201,7 +201,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="運賃"
-        android:textSize="60sp"
+        android:textSize="48sp"
         app:layout_constraintStart_toStartOf="@+id/gridLayout"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -212,7 +212,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="物販"
-        android:textSize="60sp"
+        android:textSize="48sp"
         app:layout_constraintStart_toEndOf="@+id/subtotal_fare"
         app:layout_constraintTop_toTopOf="parent" />
 
