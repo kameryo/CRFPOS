@@ -12,4 +12,10 @@ interface RequestRepository {
 
     suspend fun delete(request: Request)
 
+    suspend fun incrementRequest(request: Request)
+
+    suspend fun decrementRequest(request: Request)
+
+    suspend fun searchRequestByName(request: Request): Boolean
+
 }

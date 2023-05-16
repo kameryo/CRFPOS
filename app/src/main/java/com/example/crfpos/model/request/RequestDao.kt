@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -17,4 +18,10 @@ interface RequestDao {
 
     @Delete
     suspend fun delete(request: Request)
+
+    @Update
+    suspend fun update(request: Request)
+
+    @Query("select * from Request where stockName = :stockName")
+    fun getRequest(stockName: String): Request
 }

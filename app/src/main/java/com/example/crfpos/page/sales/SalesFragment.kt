@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.R
 import com.example.crfpos.databinding.SalesFragmentBinding
 import com.example.crfpos.model.calculater.Calculator
+import com.example.crfpos.model.request.Request
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,6 +50,7 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
                         findNavController().popBackStack()
                         true
                     }
+
                     else -> false
                 }
             }
@@ -71,11 +73,17 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         binding.child3.setOnClickListener { updateChildNum(3) }
         binding.child4.setOnClickListener { updateChildNum(4) }
 
-        val stockListAdapter = StockListAdapter {
-            vm.addRequest(it)
+        val stockListAdapter = StockListAdapter { stock ->
+            val requestList = vm.requestList.value
+            val nameIn = requestList?.filter { it.stockName == stock.name }
+            if (nameIn != null) {
+                if (nameIn.isEmpty()) {
+                    vm.addRequest(stock)
+                }
+            }
+//            vm.addRequest(stock)
         }
 
-//        binding.recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.stockListRecycler.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 
@@ -86,9 +94,13 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             stockListAdapter.submitList(stock)
         }
 
-        val requestAdapter = RequestAdapter {
+        val requestAdapter = RequestAdapter({
             vm.delete(it)
-        }
+        }, {
+            vm.incrementRequest(it)
+        }, {
+            vm.decrementRequest(it)
+        })
 
         binding.goodsSelected.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

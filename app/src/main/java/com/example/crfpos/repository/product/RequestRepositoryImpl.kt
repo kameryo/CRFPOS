@@ -27,4 +27,43 @@ class RequestRepositoryImpl @Inject constructor(
         dao.delete(request)
     }
 
+    override suspend fun incrementRequest(request: Request) {
+        val updateRequest = Request(
+            _id = request._id,
+            stockName = request.stockName,
+            stockPrice = request.stockPrice,
+            numOfOrder = request.numOfOrder + 1
+        )
+
+        withContext(Dispatchers.IO) {
+            dao.update(updateRequest)
+        }
+
+    }
+
+    override suspend fun decrementRequest(request: Request) {
+        val updateNum: Int = if (request.numOfOrder > 1) {
+            request.numOfOrder - 1
+        } else {
+            request.numOfOrder
+        }
+
+
+        val updateRequest = Request(
+            _id = request._id,
+            stockName = request.stockName,
+            stockPrice = request.stockPrice,
+            numOfOrder = updateNum
+        )
+
+        withContext(Dispatchers.IO) {
+            dao.update(updateRequest)
+        }
+    }
+
+    override suspend fun searchRequestByName(request: Request): Boolean {
+        val foundRequest = dao.getRequest(request.stockName)
+        return foundRequest != null
+    }
+
 }

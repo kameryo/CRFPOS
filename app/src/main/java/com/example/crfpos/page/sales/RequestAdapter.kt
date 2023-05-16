@@ -9,7 +9,10 @@ import com.example.crfpos.databinding.GoodsSelectedItemBinding
 import com.example.crfpos.model.request.Request
 
 class RequestAdapter(
-    private val listener: (Request) -> Unit
+    private val listener: (Request) -> Unit,
+    private val plusListener: (Request) -> Unit,
+    private val minusListener: (Request) -> Unit
+
 ) : ListAdapter<Request, RequestAdapter.ViewHolder>(callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -18,10 +21,16 @@ class RequestAdapter(
         )
         val viewHolder = ViewHolder(view)
 
-        view.root.setOnClickListener {
-            val position = viewHolder.bindingAdapterPosition
-            val order = getItem(position)
-            listener(order)
+        view.deleteButton.setOnClickListener {
+            listener(getItem(viewHolder.bindingAdapterPosition))
+        }
+
+        view.plusButton.setOnClickListener {
+            plusListener(getItem(viewHolder.bindingAdapterPosition))
+        }
+
+        view.minusButton.setOnClickListener {
+            minusListener(getItem(viewHolder.bindingAdapterPosition))
         }
 
         return viewHolder
@@ -38,7 +47,8 @@ class RequestAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindTo(request: Request) {
-            binding.price.text = request.stockPrice.toString()
+            val priceText = request.stockPrice.toString() + " 円"
+            binding.price.text = priceText
             binding.productName.text = request.stockName
             binding.purchases.text = request.numOfOrder.toString()
         }

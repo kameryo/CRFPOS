@@ -46,4 +46,28 @@ class SalesViewModel @Inject constructor(
             }
         }
     }
+
+    fun incrementRequest(request: Request) {
+        viewModelScope.launch {
+            try {
+                requestRepo.incrementRequest(request)
+                errorMessage.value = "success!"
+//                done.value = true
+            } catch (e: Exception) {
+                errorMessage.value = e.message
+            }
+        }
+    }
+
+    fun decrementRequest(request: Request) {
+        viewModelScope.launch {
+            try {
+                requestRepo.decrementRequest(request)
+                errorMessage.value = "success!"
+//                done.value = true
+            } catch (e: Exception) {
+                errorMessage.value = e.message
+            }
+        }
+    }
 }

@@ -9,7 +9,7 @@ class Calculator {
 
     fun calPrice(requestList: List<Request>?): Int {
         if (requestList != null) {
-            return requestList.sumBy { it.stockPrice }
+            return requestList.sumBy { it.stockPrice * it.numOfOrder }
         }
         return 0
     }
