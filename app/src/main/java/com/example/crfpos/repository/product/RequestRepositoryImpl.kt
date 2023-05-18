@@ -27,6 +27,10 @@ class RequestRepositoryImpl @Inject constructor(
         dao.delete(request)
     }
 
+    override suspend fun deleteAll() {
+        dao.deleteAll()
+    }
+
     override suspend fun incrementRequest(request: Request) {
         val updateRequest = Request(
             _id = request._id,
@@ -59,11 +63,6 @@ class RequestRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             dao.update(updateRequest)
         }
-    }
-
-    override suspend fun searchRequestByName(request: Request): Boolean {
-        val foundRequest = dao.getRequest(request.stockName)
-        return foundRequest != null
     }
 
 }

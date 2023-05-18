@@ -19,6 +19,9 @@ interface RequestDao {
     @Delete
     suspend fun delete(request: Request)
 
+    @Query("delete from Request")
+    suspend fun deleteAll()
+
     @Update
     suspend fun update(request: Request)
 

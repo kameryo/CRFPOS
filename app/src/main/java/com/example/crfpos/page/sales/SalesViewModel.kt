@@ -47,6 +47,18 @@ class SalesViewModel @Inject constructor(
         }
     }
 
+    fun deleteAll() {
+        viewModelScope.launch {
+            try {
+                requestRepo.deleteAll()
+                errorMessage.value = "success!"
+//                done.value = true
+            } catch (e: Exception) {
+                errorMessage.value = e.message
+            }
+        }
+    }
+
     fun incrementRequest(request: Request) {
         viewModelScope.launch {
             try {

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.R
 import com.example.crfpos.databinding.SalesFragmentBinding
 import com.example.crfpos.model.calculater.Calculator
-import com.example.crfpos.model.request.Request
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +35,9 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this._binding = SalesFragmentBinding.bind(view)
+
+        refresh()
 
         val menuHost: MenuHost = requireActivity()
 
@@ -51,12 +53,17 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
                         true
                     }
 
+                    R.id.action_refresh -> {
+                        refresh()
+                        true
+                    }
+
                     else -> false
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        this._binding = SalesFragmentBinding.bind(view)
+
 
         binding.adultNum.text = adultNum.toString()
         binding.childNum.text = childNum.toString()
@@ -74,18 +81,16 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         binding.child4.setOnClickListener { updateChildNum(4) }
 
         val stockListAdapter = StockListAdapter { stock ->
+            // すでにリストにあったら追加されないようにする。
             val requestList = vm.requestList.value
-            val nameIn = requestList?.filter { it.stockName == stock.name }
-            if (nameIn != null) {
-                if (nameIn.isEmpty()) {
-                    vm.addRequest(stock)
-                }
+            val isNameInRequest = requestList?.any { it.stockName == stock.name }
+            if (isNameInRequest == false) {
+                vm.addRequest(stock)
             }
-//            vm.addRequest(stock)
         }
 
         binding.stockListRecycler.layoutManager =
-            GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+            GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
 
         binding.stockListRecycler.adapter = stockListAdapter
 
@@ -143,6 +148,12 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         var text: String = calculator.calPrice(vm.requestList.value).toString()
         text += " 円"
         binding.subtotalGoods.text = text
+    }
+
+    private fun refresh() {
+        vm.deleteAll()
+        updateAdultNum(0)
+        updateChildNum(0)
     }
 
     override fun onDestroyView() {

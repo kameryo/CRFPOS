@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/action_refresh"
+        android:icon="@drawable/baseline_refresh_24"
+        android:title="@string/refresh"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/action_home"
         android:icon="@drawable/baseline_home_24"
         android:title="@string/back_to_home"

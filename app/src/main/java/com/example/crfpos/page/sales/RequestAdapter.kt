@@ -1,6 +1,7 @@
 package com.example.crfpos.page.sales
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -21,7 +22,7 @@ class RequestAdapter(
         )
         val viewHolder = ViewHolder(view)
 
-        view.deleteButton.setOnClickListener {
+        view.deleteButton.setOnSingleClickListener {
             listener(getItem(viewHolder.bindingAdapterPosition))
         }
 
@@ -51,6 +52,21 @@ class RequestAdapter(
             binding.price.text = priceText
             binding.productName.text = request.stockName
             binding.purchases.text = request.numOfOrder.toString()
+        }
+    }
+
+    /**
+     * 短時間での連打による複数回実行を防ぐ setOnClickListener 実装.
+     *
+     * @param listener setOnClickListener
+     */
+    private fun View.setOnSingleClickListener(listener: () -> Unit) {
+        val delayMillis = 1000 // 二度押しを防止する時間
+        var pushedAt = 0L
+        setOnClickListener {
+            if (System.currentTimeMillis() - pushedAt < delayMillis) return@setOnClickListener
+            pushedAt = System.currentTimeMillis()
+            listener()
         }
     }
 
