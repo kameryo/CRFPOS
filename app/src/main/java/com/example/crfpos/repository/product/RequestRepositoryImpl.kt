@@ -17,7 +17,7 @@ class RequestRepositoryImpl @Inject constructor(
 
     override suspend fun insert(stock: Stock, numOfOrder: Int) {
         val request =
-            Request(stockName = stock.name, stockPrice = stock.price, numOfOrder = numOfOrder)
+            Request(_id = stock._id, stockName = stock.name, stockPrice = stock.price, numOfOrder = numOfOrder)
         withContext(Dispatchers.IO) {
             dao.insert(request)
         }
