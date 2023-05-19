@@ -27,8 +27,6 @@ class SalesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 requestRepo.insert(stock, 1)
-                errorMessage.value = "success!"
-//                done.value = true
             } catch (e: Exception) {
                 errorMessage.value = e.message
             }
@@ -39,8 +37,6 @@ class SalesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 requestRepo.delete(request)
-                errorMessage.value = "success!"
-//                done.value = true
             } catch (e: Exception) {
                 errorMessage.value = e.message
             }
@@ -51,8 +47,6 @@ class SalesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 requestRepo.deleteAll()
-                errorMessage.value = "success!"
-//                done.value = true
             } catch (e: Exception) {
                 errorMessage.value = e.message
             }
@@ -63,8 +57,6 @@ class SalesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 requestRepo.incrementRequest(request)
-                errorMessage.value = "success!"
-//                done.value = true
             } catch (e: Exception) {
                 errorMessage.value = e.message
             }
@@ -75,8 +67,6 @@ class SalesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 requestRepo.decrementRequest(request)
-                errorMessage.value = "success!"
-//                done.value = true
             } catch (e: Exception) {
                 errorMessage.value = e.message
             }

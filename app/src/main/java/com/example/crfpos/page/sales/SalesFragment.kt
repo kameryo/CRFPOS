@@ -1,10 +1,12 @@
 package com.example.crfpos.page.sales
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -12,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.R
@@ -63,8 +66,6 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-
-
         binding.adultNum.text = adultNum.toString()
         binding.childNum.text = childNum.toString()
 
@@ -89,8 +90,7 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             }
         }
 
-        binding.stockListRecycler.layoutManager =
-            GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
+        binding.stockListRecycler.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
 
         binding.stockListRecycler.adapter = stockListAdapter
 
@@ -129,13 +129,47 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
     private fun updateAdultNum(adultNum: Int) {
         this.adultNum = adultNum
         binding.adultNum.text = adultNum.toString()
+        resetAdultButtonColor()
+        when(adultNum) {
+            0 -> binding.adult0.setBackgroundColor(Color.CYAN)
+            1 -> binding.adult1.setBackgroundColor(Color.CYAN)
+            2 -> binding.adult2.setBackgroundColor(Color.CYAN)
+            3 -> binding.adult3.setBackgroundColor(Color.CYAN)
+            4 -> binding.adult4.setBackgroundColor(Color.CYAN)
+        }
         updateFare()
     }
+
+    private fun resetAdultButtonColor() {
+        binding.adult0.setBackgroundColor(Color.WHITE)
+        binding.adult1.setBackgroundColor(Color.WHITE)
+        binding.adult2.setBackgroundColor(Color.WHITE)
+        binding.adult3.setBackgroundColor(Color.WHITE)
+        binding.adult4.setBackgroundColor(Color.WHITE)
+    }
+
+
 
     private fun updateChildNum(childNum: Int) {
         this.childNum = childNum
         binding.childNum.text = childNum.toString()
+        resetChildButtonColor()
+        when(childNum) {
+            0 -> binding.child0.setBackgroundColor(Color.CYAN)
+            1 -> binding.child1.setBackgroundColor(Color.CYAN)
+            2 -> binding.child2.setBackgroundColor(Color.CYAN)
+            3 -> binding.child3.setBackgroundColor(Color.CYAN)
+            4 -> binding.child4.setBackgroundColor(Color.CYAN)
+        }
         updateFare()
+    }
+
+    private fun resetChildButtonColor() {
+        binding.child0.setBackgroundColor(Color.WHITE)
+        binding.child1.setBackgroundColor(Color.WHITE)
+        binding.child2.setBackgroundColor(Color.WHITE)
+        binding.child3.setBackgroundColor(Color.WHITE)
+        binding.child4.setBackgroundColor(Color.WHITE)
     }
 
     private fun updateFare() {

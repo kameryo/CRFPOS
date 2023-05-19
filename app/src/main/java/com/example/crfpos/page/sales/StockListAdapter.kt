@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.databinding.GoodsItemBinding
 import com.example.crfpos.model.stock.Stock
 
-//import kotlinx.coroutines.NonCancellable.message
-
 class StockListAdapter(
     private val listener: (Stock) -> Unit
 ) : ListAdapter<Stock, StockListAdapter.ViewHolder>(callback) {

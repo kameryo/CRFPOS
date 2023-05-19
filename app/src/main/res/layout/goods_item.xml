@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="64dp"
-    android:background="?selectableItemBackground">
+    android:layout_margin="5dp"
+    android:background="@color/white"
+    android:hapticFeedbackEnabled="false"
+    android:minHeight="64dp">
 
     <TextView
         android:id="@+id/product_name"
@@ -18,7 +20,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Product name"/>
+        tools:text="Product name" />
 
     <TextView
         android:id="@+id/price"
@@ -32,6 +34,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_name"
-        tools:text="Price"/>
+        tools:text="Price" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

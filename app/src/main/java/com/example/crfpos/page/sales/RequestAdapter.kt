@@ -48,7 +48,7 @@ class RequestAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindTo(request: Request) {
-            val priceText = request.stockPrice.toString() + " 円"
+            val priceText = (request.stockPrice * request.numOfOrder).toString() + " 円"
             binding.price.text = priceText
             binding.productName.text = request.stockName
             binding.purchases.text = request.numOfOrder.toString()
