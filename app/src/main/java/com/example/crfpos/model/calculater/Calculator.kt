@@ -7,7 +7,7 @@ class Calculator {
         return adultNum * 10 + childNum * 100
     }
 
-    fun calPrice(requestList: List<Request>?): Int {
+    fun calGoodsSubTotal(requestList: List<Request>?): Int {
         if (requestList != null) {
             return requestList.sumBy { it.stockPrice * it.numOfOrder }
         }

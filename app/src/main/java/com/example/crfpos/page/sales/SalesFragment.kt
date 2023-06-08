@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -114,13 +113,19 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
 
         vm.requestList.observe(viewLifecycleOwner) { order ->
             requestAdapter.submitList(order)
-            updatePriceSum()
+            updateGoodsSubTotal()
         }
 
         vm.errorMessage.observe(viewLifecycleOwner) { msg ->
             if (msg.isEmpty()) return@observe
             Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show()
             vm.errorMessage.value = ""
+        }
+
+        binding.adjustment.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_salesFragment_to_salesConfirmDialogFragment
+            )
         }
 
 
@@ -173,13 +178,14 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
     }
 
     private fun updateFare() {
-        var text: String = calculator.calFare(adultNum, childNum).toString()
+        val fareSum = calculator.calFare(adultNum, childNum)
+        var text: String = fareSum.toString()
         text += " 円"
         binding.subtotalFare.text = text
     }
 
-    private fun updatePriceSum() {
-        var text: String = calculator.calPrice(vm.requestList.value).toString()
+    private fun updateGoodsSubTotal() {
+        var text: String = calculator.calGoodsSubTotal(vm.requestList.value).toString()
         text += " 円"
         binding.subtotalGoods.text = text
     }

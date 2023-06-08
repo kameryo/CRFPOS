@@ -1,4 +1,4 @@
-package com.example.crfpos.dialog
+package com.example.crfpos.page.sales.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -8,7 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 
-class ConfirmDialogFragment : DialogFragment(){
+class SalesConfirmDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireActivity()).apply {
@@ -18,7 +18,7 @@ class ConfirmDialogFragment : DialogFragment(){
         }.create()
     }
 
-    private val listener = DialogInterface.OnClickListener {_, which ->
+    private val listener = DialogInterface.OnClickListener { _, which ->
         setFragmentResult("confirm", bundleOf("result" to which))
     }
 }

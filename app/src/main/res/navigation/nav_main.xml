@@ -33,7 +33,11 @@
     <fragment
         android:id="@+id/salesFragment"
         android:name="com.example.crfpos.page.sales.SalesFragment"
-        android:label="SalesFragment" />
+        android:label="SalesFragment" >
+        <action
+            android:id="@+id/action_salesFragment_to_salesConfirmDialogFragment"
+            app:destination="@id/salesConfirmDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/stockFragment"
         android:name="com.example.crfpos.page.stock.StockFragment"
@@ -74,10 +78,14 @@
     </fragment>
     <dialog
         android:id="@+id/confirmDialogFragment"
-        android:name="com.example.crfpos.dialog.ConfirmDialogFragment"
+        android:name="com.example.crfpos.page.stock.edit.dialog.ConfirmDialogFragment"
         android:label="ConfirmDialogFragment" />
     <fragment
         android:id="@+id/recordsFragment"
         android:name="com.example.crfpos.page.records.RecordsFragment"
         android:label="RecordsFragment" />
+    <dialog
+        android:id="@+id/salesConfirmDialogFragment"
+        android:name="com.example.crfpos.page.sales.dialog.SalesConfirmDialogFragment"
+        android:label="SalesConfirmDialogFragment" />
 </navigation>
