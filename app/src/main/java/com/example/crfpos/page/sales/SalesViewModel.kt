@@ -6,8 +6,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.crfpos.model.request.Request
 import com.example.crfpos.model.stock.Stock
-import com.example.crfpos.repository.product.RequestRepository
-import com.example.crfpos.repository.product.StockRepository
+import com.example.crfpos.repository.RequestRepository
+import com.example.crfpos.repository.StockRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

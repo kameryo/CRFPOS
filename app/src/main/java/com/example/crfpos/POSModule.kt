@@ -2,14 +2,18 @@ package com.example.crfpos
 
 import android.content.Context
 import androidx.room.Room
+import com.example.crfpos.model.record.RecordDao
+import com.example.crfpos.model.record.RecordDatabase
 import com.example.crfpos.model.request.RequestDao
 import com.example.crfpos.model.request.RequestDatabase
 import com.example.crfpos.model.stock.StockDao
 import com.example.crfpos.model.stock.StockDatabase
-import com.example.crfpos.repository.product.RequestRepository
-import com.example.crfpos.repository.product.RequestRepositoryImpl
-import com.example.crfpos.repository.product.StockRepository
-import com.example.crfpos.repository.product.StockRepositoryImpl
+import com.example.crfpos.repository.RecordRepository
+import com.example.crfpos.repository.RecordRepositoryImpl
+import com.example.crfpos.repository.RequestRepository
+import com.example.crfpos.repository.RequestRepositoryImpl
+import com.example.crfpos.repository.StockRepository
+import com.example.crfpos.repository.StockRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -52,6 +56,22 @@ object POSModule {
             "request_database"
         ).fallbackToDestructiveMigration().build()
     }
+
+    @Singleton
+    @Provides
+    fun provideRecordDao(recordDatabase: RecordDatabase): RecordDao {
+        return recordDatabase.recordsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRecordDatabase(@ApplicationContext context: Context): RecordDatabase {
+        return Room.databaseBuilder(
+            context,
+            RecordDatabase::class.java,
+            "record_database"
+        ).fallbackToDestructiveMigration().build()
+    }
 }
 
 @Module
@@ -74,4 +94,15 @@ abstract class RequestRepositoryModule {
     abstract fun bindRequestRepository(
         impl: RequestRepositoryImpl
     ): RequestRepository
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class RecordRepositoryModule {
+
+    @Singleton
+    @Binds
+    abstract fun bindRecordRepository(
+        impl: RecordRepositoryImpl
+    ): RecordRepository
 }

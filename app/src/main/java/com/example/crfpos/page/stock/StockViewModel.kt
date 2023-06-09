@@ -2,7 +2,7 @@ package com.example.crfpos.page.stock
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.example.crfpos.repository.product.StockRepository
+import com.example.crfpos.repository.StockRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

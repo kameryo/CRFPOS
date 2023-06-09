@@ -1,4 +1,4 @@
-package com.example.crfpos.repository.product
+package com.example.crfpos.repository
 
 import com.example.crfpos.model.request.Request
 import com.example.crfpos.model.stock.Stock
