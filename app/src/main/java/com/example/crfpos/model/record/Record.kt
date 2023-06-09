@@ -1,4 +1,4 @@
-package com.example.crfpos.model.records
+package com.example.crfpos.model.record
 
 import android.os.Parcelable
 import androidx.room.Entity
@@ -6,11 +6,9 @@ import androidx.room.PrimaryKey
 import com.example.crfpos.model.request.Request
 import kotlinx.parcelize.Parcelize
 
-import java.sql.Time
-
 @Entity
 @Parcelize
-data class Records (
+data class Record(
     @PrimaryKey(autoGenerate = true)
     val _id: Int = 0,
     val time: Long,
@@ -20,6 +18,6 @@ data class Records (
     val goodsSales: Int,
     val adult: Int,
     val child: Int,
-    val request: Request,
+    val requestList: List<Request>,
     val memo: String
 ) : Parcelable
