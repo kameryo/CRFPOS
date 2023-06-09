@@ -8,21 +8,24 @@ import android.view.View
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crfpos.R
-import com.example.crfpos.databinding.RecordsFragmentBinding
+import com.example.crfpos.databinding.RecordFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RecordsFragment : Fragment(R.layout.records_fragment){
+class RecordFragment : Fragment(R.layout.record_fragment) {
+    private val vm: RecordViewModel by viewModels()
 
-    private var _binding: RecordsFragmentBinding? = null
-    private val binding: RecordsFragmentBinding get() = _binding!!
+    private var _binding: RecordFragmentBinding? = null
+    private val binding: RecordFragmentBinding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this._binding = RecordsFragmentBinding.bind(view)
+        this._binding = RecordFragmentBinding.bind(view)
 
         val menuHost: MenuHost = requireActivity()
 
@@ -37,13 +40,26 @@ class RecordsFragment : Fragment(R.layout.records_fragment){
                         findNavController().popBackStack()
                         true
                     }
+
                     R.id.action_add -> {
                         findNavController().popBackStack()
                         true
                     }
+
                     else -> false
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        val adapter = RecordAdapter {
+
+        }
+        binding.recordRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.recordRecycler.adapter = adapter
+
+        vm.recordList.observe(viewLifecycleOwner) { record ->
+            adapter.submitList(record)
+        }
     }
 }

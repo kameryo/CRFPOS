@@ -18,6 +18,6 @@ data class Record(
     val goodsSales: Int,
     val adult: Int,
     val child: Int,
-    val requestList: List<Request>,
+    val requestList: List<Request>?,
     val memo: String
 ) : Parcelable

@@ -82,7 +82,7 @@
         android:label="ConfirmDialogFragment" />
     <fragment
         android:id="@+id/recordsFragment"
-        android:name="com.example.crfpos.page.records.RecordsFragment"
+        android:name="com.example.crfpos.page.records.RecordFragment"
         android:label="RecordsFragment" />
     <dialog
         android:id="@+id/salesConfirmDialogFragment"

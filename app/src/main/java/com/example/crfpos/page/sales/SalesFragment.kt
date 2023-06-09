@@ -13,12 +13,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.R
 import com.example.crfpos.databinding.SalesFragmentBinding
 import com.example.crfpos.model.calculater.Calculator
+import com.example.crfpos.model.record.Record
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,6 +34,17 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
     private var childNum: Int = 0
 
     private val calculator = Calculator()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+//        setFragmentResultListener("confirm") {_, data ->
+//            val which = data.getInt("result")
+//            if (which == DialogInterface.BUTTON_POSITIVE) {
+//                vm.addRecord(data)
+//            }
+//        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -89,7 +100,8 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             }
         }
 
-        binding.stockListRecycler.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
+        binding.stockListRecycler.layoutManager =
+            GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
 
         binding.stockListRecycler.adapter = stockListAdapter
 
@@ -123,9 +135,29 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         }
 
         binding.adjustment.setOnClickListener {
-            findNavController().navigate(
-                R.id.action_salesFragment_to_salesConfirmDialogFragment
-            )
+            val fareSales = calculator.calFare(adultNum, childNum)
+            val goodsSales = calculator.calGoodsSubTotal(vm.requestList.value)
+            val total = fareSales + goodsSales
+            if (total != 0) {
+                val record = Record(
+                    time = System.currentTimeMillis() / 1000,
+                    total = fareSales + goodsSales,
+                    fareSales = fareSales,
+                    otherSales = 0,
+                    goodsSales = goodsSales,
+                    adult = adultNum,
+                    child = childNum,
+                    requestList = vm.requestList.value,
+                    memo = ""
+                )
+                vm.addRecord(record)
+            }
+
+
+            refresh()
+//            findNavController().navigate(
+//                R.id.action_salesFragment_to_salesConfirmDialogFragment
+//            )
         }
 
 
@@ -135,7 +167,7 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         this.adultNum = adultNum
         binding.adultNum.text = adultNum.toString()
         resetAdultButtonColor()
-        when(adultNum) {
+        when (adultNum) {
             0 -> binding.adult0.setBackgroundColor(Color.CYAN)
             1 -> binding.adult1.setBackgroundColor(Color.CYAN)
             2 -> binding.adult2.setBackgroundColor(Color.CYAN)
@@ -154,12 +186,11 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
     }
 
 
-
     private fun updateChildNum(childNum: Int) {
         this.childNum = childNum
         binding.childNum.text = childNum.toString()
         resetChildButtonColor()
-        when(childNum) {
+        when (childNum) {
             0 -> binding.child0.setBackgroundColor(Color.CYAN)
             1 -> binding.child1.setBackgroundColor(Color.CYAN)
             2 -> binding.child2.setBackgroundColor(Color.CYAN)

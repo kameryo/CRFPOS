@@ -7,8 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class RecordsViewModel @Inject constructor(
+class RecordViewModel @Inject constructor(
     private val recordRepo: RecordRepository
-): ViewModel(){
+) : ViewModel() {
     val recordList = recordRepo.getAll().asLiveData()
 }
