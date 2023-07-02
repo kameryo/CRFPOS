@@ -12,19 +12,15 @@
 
         <Button
             android:id="@+id/button_sales"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            style="@style/MainMenuButton"
             android:text="販売"
-            android:textSize="50sp"
             app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintWidth_percent="0.4" />
 
 
         <Button
             android:id="@+id/button_records"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="30dp"
+            style="@style/MainMenuButton"
             android:text="売上管理"
             android:textSize="50sp"
             app:layout_constraintDimensionRatio="16:9"
@@ -33,9 +29,7 @@
 
         <Button
             android:id="@+id/button_stock"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="30dp"
+            style="@style/MainMenuButton"
             android:text="在庫管理"
             android:textSize="50sp"
             app:layout_constraintDimensionRatio="16:9"
@@ -43,17 +37,18 @@
 
 
         <androidx.constraintlayout.helper.widget.Flow
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="button_records,button_sales,button_stock"
             app:flow_horizontalBias="0.5"
-            app:flow_horizontalStyle="packed"
             app:flow_horizontalGap="10dp"
+            app:flow_horizontalStyle="packed"
             app:flow_maxElementsWrap="2"
-            app:flow_wrapMode="chain" />
+            app:flow_verticalGap="10dp"
+            app:flow_wrapMode="chain"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
