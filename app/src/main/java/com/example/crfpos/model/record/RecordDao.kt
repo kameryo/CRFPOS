@@ -14,6 +14,6 @@ interface RecordDao {
     @Delete
     suspend fun delete(record: Record)
 
-    @Query("SELECT * FROM Record ORDER BY _id")
+    @Query("SELECT * FROM Record ORDER BY _id desc")
     fun getAll() : Flow<List<Record>>
 }
