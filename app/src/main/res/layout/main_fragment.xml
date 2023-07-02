@@ -10,16 +10,16 @@
     <Button
         android:id="@+id/button_sales"
         style="@style/MainMenuButton"
-        android:text="販売" />
+        android:text="@string/manage_sales" />
 
     <Button
         android:id="@+id/button_records"
         style="@style/MainMenuButton"
-        android:text="売上管理" />
+        android:text="@string/manage_records" />
 
     <Button
         android:id="@+id/button_stock"
         style="@style/MainMenuButton"
-        android:text="在庫管理" />
+        android:text="@string/manage_stock" />
 
 </LinearLayout>
