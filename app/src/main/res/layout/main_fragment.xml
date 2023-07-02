@@ -4,42 +4,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button_sales"
-        android:layout_width="399dp"
-        android:layout_height="217dp"
-        android:text="販売"
-        android:textSize="90sp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/button_records"
-        android:layout_width="399dp"
-        android:layout_height="217dp"
-        android:text="売上管理"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
+        <Button
+            android:id="@+id/button_sales"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="販売"
+            android:textSize="50sp"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintWidth_percent="0.4" />
 
-    <Button
-        android:id="@+id/button_stock"
-        android:layout_width="399dp"
-        android:layout_height="217dp"
-        android:text="在庫管理"
-        android:textSize="60sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
+
+        <Button
+            android:id="@+id/button_records"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            android:text="売上管理"
+            android:textSize="50sp"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintWidth_percent="0.4" />
+
+
+        <Button
+            android:id="@+id/button_stock"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            android:text="在庫管理"
+            android:textSize="50sp"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintWidth_percent="0.4" />
+
+
+        <androidx.constraintlayout.helper.widget.Flow
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="button_records,button_sales,button_stock"
+            app:flow_horizontalBias="0.5"
+            app:flow_horizontalStyle="packed"
+            app:flow_horizontalGap="10dp"
+            app:flow_maxElementsWrap="2"
+            app:flow_wrapMode="chain" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
