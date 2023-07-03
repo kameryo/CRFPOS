@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:layout_marginEnd="32dp"
-        android:columnCount="6"
+        android:columnCount="7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +149,7 @@
 
 
         <EditText
-            android:id="@+id/editTextNumber"
+            android:id="@+id/editAdultNum"
             android:layout_width="50dp"
             android:layout_height="80dp"
             android:layout_row="0"
@@ -167,7 +167,7 @@
             android:layout_width="100dp"
             android:layout_height="80dp"
             android:layout_row="0"
-            android:layout_column="5"
+            android:layout_column="6"
             android:layout_gravity="right"
             android:backgroundTint="@color/white"
             android:insetLeft="2dp"
@@ -253,13 +253,34 @@
             android:textColor="@color/black"
             android:textSize="24sp" />
 
-        <Button
-            android:id="@+id/child_input"
-            android:layout_width="150dp"
+        <EditText
+            android:id="@+id/editChildNum"
+            android:layout_width="50dp"
             android:layout_height="80dp"
             android:layout_row="1"
             android:layout_column="5"
-            android:text="@string/child_input"
+            android:ems="2"
+            android:inputType="number"
+            android:insetLeft="2dp"
+            android:insetTop="2dp"
+            android:insetRight="2dp"
+            android:insetBottom="2dp"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/child_input"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_row="1"
+            android:layout_column="6"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/white"
+            android:insetLeft="2dp"
+            android:insetTop="2dp"
+            android:insetRight="2dp"
+            android:insetBottom="2dp"
+            android:text="入力"
+            android:textColor="@color/black"
             android:textSize="24sp" />
 
 

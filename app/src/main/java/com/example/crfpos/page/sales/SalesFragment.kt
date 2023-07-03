@@ -84,12 +84,14 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         binding.adult2.setOnClickListener { updateAdultNum(2) }
         binding.adult3.setOnClickListener { updateAdultNum(3) }
         binding.adult4.setOnClickListener { updateAdultNum(4) }
+        binding.adultInput.setOnClickListener { updateAdultNumInput() }
 
         binding.child0.setOnClickListener { updateChildNum(0) }
         binding.child1.setOnClickListener { updateChildNum(1) }
         binding.child2.setOnClickListener { updateChildNum(2) }
         binding.child3.setOnClickListener { updateChildNum(3) }
         binding.child4.setOnClickListener { updateChildNum(4) }
+        binding.childInput.setOnClickListener { updateChildNumInput() }
 
         val stockListAdapter = StockListAdapter { stock ->
             // すでにリストにあったら追加されないようにする。
@@ -177,6 +179,14 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         updateFare()
     }
 
+    private fun updateAdultNumInput() {
+        val editStr = binding.editAdultNum.text.toString()
+        if (editStr.trim().isEmpty()) {
+            return
+        }
+        updateAdultNum(editStr.toInt())
+    }
+
     private fun resetAdultButtonColor() {
         binding.adult0.setBackgroundColor(Color.WHITE)
         binding.adult1.setBackgroundColor(Color.WHITE)
@@ -198,6 +208,14 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             4 -> binding.child4.setBackgroundColor(Color.CYAN)
         }
         updateFare()
+    }
+
+    private fun updateChildNumInput() {
+        val editStr = binding.editChildNum.text.toString()
+        if (editStr.trim().isEmpty()) {
+            return
+        }
+        updateChildNum(editStr.toInt())
     }
 
     private fun resetChildButtonColor() {
@@ -225,6 +243,8 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         vm.deleteAll()
         updateAdultNum(0)
         updateChildNum(0)
+        binding.editAdultNum.text.clear()
+        binding.editChildNum.text.clear()
     }
 
     override fun onDestroyView() {
