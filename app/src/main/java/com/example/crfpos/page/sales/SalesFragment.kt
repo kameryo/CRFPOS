@@ -136,14 +136,14 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             binding.editChildNum.text.toString().toIntOrNull()?.let { vm.updateChildNum(it) }
         }
 
-        val stockListAdapter = StockListAdapter { stock ->
+        val stockListAdapter = StockListAdapter(onClickItem = { stock ->
             // すでにリストにあったら追加されないようにする。
             val requestList = vm.requestList.value
             val isNameInRequest = requestList?.any { it.stockName == stock.name }
             if (isNameInRequest == false) {
                 vm.addRequest(stock)
             }
-        }
+        })
 
         binding.stockListRecycler.layoutManager =
             GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
@@ -155,13 +155,11 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             stockListAdapter.submitList(stock)
         }
 
-        val requestAdapter = RequestAdapter({
-            vm.delete(it)
-        }, {
-            vm.incrementRequest(it)
-        }, {
-            vm.decrementRequest(it)
-        })
+        val requestAdapter = RequestAdapter(
+            onClickDelete = { vm.delete(it) },
+            onClickPlus = { vm.incrementRequest(it) },
+            onClickMinus = { vm.decrementRequest(it) },
+        )
 
         binding.goodsSelected.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

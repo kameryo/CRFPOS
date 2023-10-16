@@ -10,9 +10,9 @@ import com.example.crfpos.databinding.GoodsSelectedItemBinding
 import com.example.crfpos.model.request.Request
 
 class RequestAdapter(
-    private val listener: (Request) -> Unit,
-    private val plusListener: (Request) -> Unit,
-    private val minusListener: (Request) -> Unit
+    private val onClickDelete: (Request) -> Unit,
+    private val onClickPlus: (Request) -> Unit,
+    private val onClickMinus: (Request) -> Unit
 
 ) : ListAdapter<Request, RequestAdapter.ViewHolder>(callback) {
 
@@ -23,15 +23,15 @@ class RequestAdapter(
         val viewHolder = ViewHolder(view)
 
         view.deleteButton.setOnSingleClickListener {
-            listener(getItem(viewHolder.bindingAdapterPosition))
+            onClickDelete(getItem(viewHolder.bindingAdapterPosition))
         }
 
         view.plusButton.setOnClickListener {
-            plusListener(getItem(viewHolder.bindingAdapterPosition))
+            onClickPlus(getItem(viewHolder.bindingAdapterPosition))
         }
 
         view.minusButton.setOnClickListener {
-            minusListener(getItem(viewHolder.bindingAdapterPosition))
+            onClickMinus(getItem(viewHolder.bindingAdapterPosition))
         }
 
         return viewHolder

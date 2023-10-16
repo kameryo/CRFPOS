@@ -9,7 +9,7 @@ import com.example.crfpos.databinding.GoodsItemBinding
 import com.example.crfpos.model.stock.Stock
 
 class StockListAdapter(
-    private val listener: (Stock) -> Unit
+    private val onClickItem: (Stock) -> Unit
 ) : ListAdapter<Stock, StockListAdapter.ViewHolder>(callback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,7 +21,7 @@ class StockListAdapter(
         view.root.setOnClickListener {
             val position = viewHolder.bindingAdapterPosition
             val stock = getItem(position)
-            listener(stock)
+            onClickItem(stock)
         }
 
         return viewHolder
