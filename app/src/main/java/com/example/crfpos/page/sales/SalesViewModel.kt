@@ -3,6 +3,7 @@ package com.example.crfpos.page.sales
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.crfpos.model.calculater.Calculator
 import com.example.crfpos.model.record.Record
@@ -31,6 +32,9 @@ class SalesViewModel @Inject constructor(
     private val mutableChildNum = MutableStateFlow(0)
     val childNum = mutableChildNum.asStateFlow()
 
+    val stockList = stockRepo.getAll().asLiveData()
+    val requestList = requestRepo.getAll().asLiveData()
+
     val subtotalFare = combine(
         adultNum,
         childNum,
@@ -38,8 +42,7 @@ class SalesViewModel @Inject constructor(
         calculator.calFare(adultNum, childNum)
     }
 
-    val stockList = stockRepo.getAll().asLiveData()
-    val requestList = requestRepo.getAll().asLiveData()
+    val subtotalGoods = requestList.map { requestList -> calculator.calGoodsSubTotal(requestList) }
 
     val errorMessage = MutableLiveData<String>()
 //    val done = MutableLiveData<Boolean>()

@@ -11,6 +11,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -110,6 +111,12 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             }
         }
 
+        lifecycleScope.launch {
+            vm.subtotalGoods.asFlow().collect { subtotalGoods ->
+                binding.subtotalGoods.text = "${subtotalGoods}円"
+            }
+        }
+
         // setup onClickListeners
         binding.adult0.setOnClickListener { vm.updateAdultNum(0) }
         binding.adult1.setOnClickListener { vm.updateAdultNum(1) }
@@ -163,7 +170,6 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
 
         vm.requestList.observe(viewLifecycleOwner) { order ->
             requestAdapter.submitList(order)
-            updateGoodsSubTotal()
         }
 
         vm.errorMessage.observe(viewLifecycleOwner) { msg ->
@@ -224,12 +230,6 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         binding.child2.setBackgroundColor(Color.WHITE)
         binding.child3.setBackgroundColor(Color.WHITE)
         binding.child4.setBackgroundColor(Color.WHITE)
-    }
-
-    private fun updateGoodsSubTotal() {
-        var text: String = calculator.calGoodsSubTotal(vm.requestList.value).toString()
-        text += " 円"
-        binding.subtotalGoods.text = text
     }
 
     override fun onDestroyView() {
