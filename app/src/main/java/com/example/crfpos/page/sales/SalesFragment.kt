@@ -11,6 +11,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,19 +22,17 @@ import com.example.crfpos.model.calculater.Calculator
 import com.example.crfpos.model.record.Record
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class SalesFragment : Fragment(R.layout.sales_fragment) {
     private val vm: SalesViewModel by viewModels()
 
+    private val calculator = Calculator()
+
     private var _binding: SalesFragmentBinding? = null
     private val binding: SalesFragmentBinding get() = _binding!!
-
-    private var adultNum: Int = 0
-    private var childNum: Int = 0
-
-    private val calculator = Calculator()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,21 +75,54 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        binding.adultNum.text = adultNum.toString()
-        binding.childNum.text = childNum.toString()
+        // observe ViewModel's values
+        lifecycleScope.launch {
+            vm.adultNum.collect { adultNum ->
+                binding.adultNum.text = adultNum.toString()
+                resetAdultButtonColor()
+                when (adultNum) {
+                    0 -> binding.adult0.setBackgroundColor(Color.CYAN)
+                    1 -> binding.adult1.setBackgroundColor(Color.CYAN)
+                    2 -> binding.adult2.setBackgroundColor(Color.CYAN)
+                    3 -> binding.adult3.setBackgroundColor(Color.CYAN)
+                    4 -> binding.adult4.setBackgroundColor(Color.CYAN)
+                }
+            }
+        }
 
-        binding.adult0.setOnClickListener { updateAdultNum(0) }
-        binding.adult1.setOnClickListener { updateAdultNum(1) }
-        binding.adult2.setOnClickListener { updateAdultNum(2) }
-        binding.adult3.setOnClickListener { updateAdultNum(3) }
-        binding.adult4.setOnClickListener { updateAdultNum(4) }
+        lifecycleScope.launch {
+            vm.childNum.collect { childNum ->
+                binding.childNum.text = childNum.toString()
+                resetChildButtonColor()
+                when (childNum) {
+                    0 -> binding.child0.setBackgroundColor(Color.CYAN)
+                    1 -> binding.child1.setBackgroundColor(Color.CYAN)
+                    2 -> binding.child2.setBackgroundColor(Color.CYAN)
+                    3 -> binding.child3.setBackgroundColor(Color.CYAN)
+                    4 -> binding.child4.setBackgroundColor(Color.CYAN)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            vm.subtotalFare.collect { subtotalFare ->
+                binding.subtotalFare.text = "${subtotalFare}円"
+            }
+        }
+
+        // setup onClickListeners
+        binding.adult0.setOnClickListener { vm.updateAdultNum(0) }
+        binding.adult1.setOnClickListener { vm.updateAdultNum(1) }
+        binding.adult2.setOnClickListener { vm.updateAdultNum(2) }
+        binding.adult3.setOnClickListener { vm.updateAdultNum(3) }
+        binding.adult4.setOnClickListener { vm.updateAdultNum(4) }
         binding.adultInput.setOnClickListener { updateAdultNumInput() }
 
-        binding.child0.setOnClickListener { updateChildNum(0) }
-        binding.child1.setOnClickListener { updateChildNum(1) }
-        binding.child2.setOnClickListener { updateChildNum(2) }
-        binding.child3.setOnClickListener { updateChildNum(3) }
-        binding.child4.setOnClickListener { updateChildNum(4) }
+        binding.child0.setOnClickListener { vm.updateChildNum(0) }
+        binding.child1.setOnClickListener { vm.updateChildNum(1) }
+        binding.child2.setOnClickListener { vm.updateChildNum(2) }
+        binding.child3.setOnClickListener { vm.updateChildNum(3) }
+        binding.child4.setOnClickListener { vm.updateChildNum(4) }
         binding.childInput.setOnClickListener { updateChildNumInput() }
 
         val stockListAdapter = StockListAdapter { stock ->
@@ -137,7 +169,7 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         }
 
         binding.adjustment.setOnClickListener {
-            val fareSales = calculator.calFare(adultNum, childNum)
+            val fareSales = calculator.calFare(vm.adultNum.value, vm.childNum.value)
             val goodsSales = calculator.calGoodsSubTotal(vm.requestList.value)
             val total = fareSales + goodsSales
             if (total != 0) {
@@ -147,8 +179,8 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
                     fareSales = fareSales,
                     otherSales = 0,
                     goodsSales = goodsSales,
-                    adult = adultNum,
-                    child = childNum,
+                    adult = vm.adultNum.value,
+                    child = vm.childNum.value,
                     requestList = vm.requestList.value,
                     memo = ""
                 )
@@ -165,18 +197,12 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
 
     }
 
-    private fun updateAdultNum(adultNum: Int) {
-        this.adultNum = adultNum
-        binding.adultNum.text = adultNum.toString()
-        resetAdultButtonColor()
-        when (adultNum) {
-            0 -> binding.adult0.setBackgroundColor(Color.CYAN)
-            1 -> binding.adult1.setBackgroundColor(Color.CYAN)
-            2 -> binding.adult2.setBackgroundColor(Color.CYAN)
-            3 -> binding.adult3.setBackgroundColor(Color.CYAN)
-            4 -> binding.adult4.setBackgroundColor(Color.CYAN)
-        }
-        updateFare()
+    private fun refresh() {
+        vm.deleteAll()
+        vm.updateAdultNum(0)
+        vm.updateChildNum(0)
+        binding.editAdultNum.text.clear()
+        binding.editChildNum.text.clear()
     }
 
     private fun updateAdultNumInput() {
@@ -184,30 +210,7 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         if (editStr.trim().isEmpty()) {
             return
         }
-        updateAdultNum(editStr.toInt())
-    }
-
-    private fun resetAdultButtonColor() {
-        binding.adult0.setBackgroundColor(Color.WHITE)
-        binding.adult1.setBackgroundColor(Color.WHITE)
-        binding.adult2.setBackgroundColor(Color.WHITE)
-        binding.adult3.setBackgroundColor(Color.WHITE)
-        binding.adult4.setBackgroundColor(Color.WHITE)
-    }
-
-
-    private fun updateChildNum(childNum: Int) {
-        this.childNum = childNum
-        binding.childNum.text = childNum.toString()
-        resetChildButtonColor()
-        when (childNum) {
-            0 -> binding.child0.setBackgroundColor(Color.CYAN)
-            1 -> binding.child1.setBackgroundColor(Color.CYAN)
-            2 -> binding.child2.setBackgroundColor(Color.CYAN)
-            3 -> binding.child3.setBackgroundColor(Color.CYAN)
-            4 -> binding.child4.setBackgroundColor(Color.CYAN)
-        }
-        updateFare()
+        vm.updateAdultNum(editStr.toInt())
     }
 
     private fun updateChildNumInput() {
@@ -215,7 +218,16 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         if (editStr.trim().isEmpty()) {
             return
         }
-        updateChildNum(editStr.toInt())
+        vm.updateChildNum(editStr.toInt())
+    }
+
+
+    private fun resetAdultButtonColor() {
+        binding.adult0.setBackgroundColor(Color.WHITE)
+        binding.adult1.setBackgroundColor(Color.WHITE)
+        binding.adult2.setBackgroundColor(Color.WHITE)
+        binding.adult3.setBackgroundColor(Color.WHITE)
+        binding.adult4.setBackgroundColor(Color.WHITE)
     }
 
     private fun resetChildButtonColor() {
@@ -226,25 +238,10 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         binding.child4.setBackgroundColor(Color.WHITE)
     }
 
-    private fun updateFare() {
-        val fareSum = calculator.calFare(adultNum, childNum)
-        var text: String = fareSum.toString()
-        text += " 円"
-        binding.subtotalFare.text = text
-    }
-
     private fun updateGoodsSubTotal() {
         var text: String = calculator.calGoodsSubTotal(vm.requestList.value).toString()
         text += " 円"
         binding.subtotalGoods.text = text
-    }
-
-    private fun refresh() {
-        vm.deleteAll()
-        updateAdultNum(0)
-        updateChildNum(0)
-        binding.editAdultNum.text.clear()
-        binding.editChildNum.text.clear()
     }
 
     override fun onDestroyView() {
