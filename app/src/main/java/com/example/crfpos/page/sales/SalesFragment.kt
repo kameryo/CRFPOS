@@ -6,6 +6,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.unit.dp
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -14,9 +21,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.R
 import com.example.crfpos.databinding.SalesFragmentBinding
 import com.google.android.material.snackbar.Snackbar
@@ -42,6 +47,7 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
 //        }
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this._binding = SalesFragmentBinding.bind(view)
@@ -132,23 +138,29 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             binding.editChildNum.text.toString().toIntOrNull()?.let { vm.updateChildNum(it) }
         }
 
-        val stockListAdapter = StockListAdapter(onClickItem = { stock ->
-            // すでにリストにあったら追加されないようにする。
-            val requestList = vm.requestList.value
-            val isNameInRequest = requestList?.any { it.stockName == stock.name }
-            if (isNameInRequest == false) {
-                vm.addRequest(stock)
+        binding.stockListRecycler.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                val stocks = vm.stockList.asFlow().collectAsState(initial = emptyList())
+                LazyVerticalStaggeredGrid(
+                    columns =StaggeredGridCells.Adaptive(120.dp),
+                )  {
+                    items(stocks.value) { stock ->
+                        GoodsItemView(
+                            name = stock.name,
+                            price = stock.price,
+                            onClick = {
+                                // すでにリストにあったら追加されないようにする。
+                                val requestList = vm.requestList.value
+                                val isNameInRequest = requestList?.any { it.stockName == stock.name }
+                                if (isNameInRequest == false) {
+                                    vm.addRequest(stock)
+                                }
+                            }
+                        )
+                    }
+                }
             }
-        })
-
-        binding.stockListRecycler.layoutManager =
-            GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
-
-        binding.stockListRecycler.adapter = stockListAdapter
-
-        //これがないと表示されない
-        vm.stockList.observe(viewLifecycleOwner) { stock ->
-            stockListAdapter.submitList(stock)
         }
 
         val requestAdapter = RequestAdapter(
