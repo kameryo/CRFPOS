@@ -7,6 +7,8 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -21,7 +23,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crfpos.R
 import com.example.crfpos.databinding.SalesFragmentBinding
 import com.google.android.material.snackbar.Snackbar
@@ -163,19 +164,23 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
             }
         }
 
-        val requestAdapter = RequestAdapter(
-            onClickDelete = { vm.delete(it) },
-            onClickPlus = { vm.incrementRequest(it) },
-            onClickMinus = { vm.decrementRequest(it) },
-        )
-
-        binding.goodsSelected.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-        binding.goodsSelected.adapter = requestAdapter
-
-        vm.requestList.observe(viewLifecycleOwner) { order ->
-            requestAdapter.submitList(order)
+        binding.goodsSelected.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                val requests = vm.requestList.asFlow().collectAsState(initial = emptyList())
+                LazyColumn {
+                    items(requests.value) { request ->
+                        RequestingProductItemView(
+                            productName = request.stockName,
+                            quantity = request.numOfOrder,
+                            price = request.stockPrice,
+                            onClickMinus = { vm.decrementRequest(request) },
+                            onClickPlus = { vm.incrementRequest(request) },
+                            onClickDelete = { vm.delete(request) },
+                        )
+                    }
+                }
+            }
         }
 
         vm.errorMessage.observe(viewLifecycleOwner) { msg ->
