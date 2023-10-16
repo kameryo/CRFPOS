@@ -116,14 +116,18 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         binding.adult2.setOnClickListener { vm.updateAdultNum(2) }
         binding.adult3.setOnClickListener { vm.updateAdultNum(3) }
         binding.adult4.setOnClickListener { vm.updateAdultNum(4) }
-        binding.adultInput.setOnClickListener { updateAdultNumInput() }
+        binding.adultInput.setOnClickListener {
+            binding.editAdultNum.text.toString().toIntOrNull()?.let { vm.updateAdultNum(it) }
+        }
 
         binding.child0.setOnClickListener { vm.updateChildNum(0) }
         binding.child1.setOnClickListener { vm.updateChildNum(1) }
         binding.child2.setOnClickListener { vm.updateChildNum(2) }
         binding.child3.setOnClickListener { vm.updateChildNum(3) }
         binding.child4.setOnClickListener { vm.updateChildNum(4) }
-        binding.childInput.setOnClickListener { updateChildNumInput() }
+        binding.childInput.setOnClickListener {
+            binding.editChildNum.text.toString().toIntOrNull()?.let { vm.updateChildNum(it) }
+        }
 
         val stockListAdapter = StockListAdapter { stock ->
             // すでにリストにあったら追加されないようにする。
@@ -203,22 +207,6 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         vm.updateChildNum(0)
         binding.editAdultNum.text.clear()
         binding.editChildNum.text.clear()
-    }
-
-    private fun updateAdultNumInput() {
-        val editStr = binding.editAdultNum.text.toString()
-        if (editStr.trim().isEmpty()) {
-            return
-        }
-        vm.updateAdultNum(editStr.toInt())
-    }
-
-    private fun updateChildNumInput() {
-        val editStr = binding.editChildNum.text.toString()
-        if (editStr.trim().isEmpty()) {
-            return
-        }
-        vm.updateChildNum(editStr.toInt())
     }
 
 
