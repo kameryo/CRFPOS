@@ -14,8 +14,10 @@ import com.example.crfpos.repository.RequestRepository
 import com.example.crfpos.repository.StockRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,7 +42,11 @@ class SalesViewModel @Inject constructor(
         childNum,
     ) { adultNum, childNum ->
         calculator.calFare(adultNum, childNum)
-    }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = 0,
+    )
 
     val subtotalGoods = requestList.map { requestList -> calculator.calGoodsSubTotal(requestList) }
 
@@ -97,7 +103,21 @@ class SalesViewModel @Inject constructor(
         }
     }
 
-    fun addRecord(record: Record) {
+    fun saveRecord() {
+        val fareSales = subtotalFare.value
+        val goodsSales = subtotalGoods.value ?: 0
+        if (fareSales + goodsSales == 0) return
+        val record = Record(
+            time = System.currentTimeMillis() / 1000,
+            total = fareSales + goodsSales,
+            fareSales = fareSales,
+            otherSales = 0,
+            goodsSales = goodsSales,
+            adult = adultNum.value,
+            child = childNum.value,
+            requestList = requestList.value,
+            memo = ""
+        )
         viewModelScope.launch {
             try {
                 recordRepo.insert(record)

@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crfpos.R
 import com.example.crfpos.databinding.SalesFragmentBinding
-import com.example.crfpos.model.calculater.Calculator
-import com.example.crfpos.model.record.Record
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,8 +27,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SalesFragment : Fragment(R.layout.sales_fragment) {
     private val vm: SalesViewModel by viewModels()
-
-    private val calculator = Calculator()
 
     private var _binding: SalesFragmentBinding? = null
     private val binding: SalesFragmentBinding get() = _binding!!
@@ -177,25 +173,7 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
         }
 
         binding.adjustment.setOnClickListener {
-            val fareSales = calculator.calFare(vm.adultNum.value, vm.childNum.value)
-            val goodsSales = calculator.calGoodsSubTotal(vm.requestList.value)
-            val total = fareSales + goodsSales
-            if (total != 0) {
-                val record = Record(
-                    time = System.currentTimeMillis() / 1000,
-                    total = fareSales + goodsSales,
-                    fareSales = fareSales,
-                    otherSales = 0,
-                    goodsSales = goodsSales,
-                    adult = vm.adultNum.value,
-                    child = vm.childNum.value,
-                    requestList = vm.requestList.value,
-                    memo = ""
-                )
-                vm.addRecord(record)
-            }
-
-
+            vm.saveRecord()
             refresh()
 //            findNavController().navigate(
 //                R.id.action_salesFragment_to_salesConfirmDialogFragment
