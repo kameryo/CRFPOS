@@ -24,5 +24,5 @@
     <string name="manage_records">売上管理</string>
     <string name="manage_sales">販売</string>
     <string name="export">export</string>
-
+    <string name="yen">%d円</string>
 </resources>

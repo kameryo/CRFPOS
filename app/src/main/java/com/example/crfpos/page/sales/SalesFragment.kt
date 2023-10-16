@@ -103,13 +103,13 @@ class SalesFragment : Fragment(R.layout.sales_fragment) {
 
         lifecycleScope.launch {
             vm.subtotalFare.collect { subtotalFare ->
-                binding.subtotalFare.text = "${subtotalFare}円"
+                binding.subtotalFare.text = getString(R.string.yen, subtotalFare)
             }
         }
 
         lifecycleScope.launch {
             vm.subtotalGoods.asFlow().collect { subtotalGoods ->
-                binding.subtotalGoods.text = "${subtotalGoods}円"
+                binding.subtotalGoods.text = getString(R.string.yen, subtotalGoods)
             }
         }
 
