@@ -117,12 +117,12 @@ fun SalesView(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Button(onClick = { /*TODO*/ }) {
-                    Text(text = "特企券選択") // TODO: extract string resource
+                    Text(text = stringResource(id = R.string.select_toku_toku))
                 }
                 Column {
                     Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
                         Text(
-                            text = "運賃",
+                            text = stringResource(id = R.string.fare),
                             style = MaterialTheme.typography.displaySmall,
                         )
                         Text(
@@ -132,7 +132,7 @@ fun SalesView(
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
                         Text(
-                            text = "特企",
+                            text = stringResource(id = R.string.toku_toku),
                             style = MaterialTheme.typography.displaySmall,
                         )
                         Text(
@@ -142,7 +142,7 @@ fun SalesView(
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
                         Text(
-                            text = "物販",
+                            text = stringResource(id = R.string.goods_sales),
                             style = MaterialTheme.typography.displaySmall,
                         )
                         Text(
