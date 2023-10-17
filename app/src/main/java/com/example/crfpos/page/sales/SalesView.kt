@@ -117,7 +117,10 @@ fun SalesView(
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Button(onClick = { /*TODO*/ }) {
-                    Text(text = stringResource(id = R.string.select_toku_toku))
+                    Text(
+                        text = stringResource(id = R.string.select_toku_toku),
+                        style = MaterialTheme.typography.displaySmall,
+                    )
                 }
                 Column {
                     Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
