@@ -51,6 +51,7 @@ fun SalesView(
     onClickPlusForSelectedGoods: (request: Request) -> Unit,
     onClickDeleteForSelectedGoods: (request: Request) -> Unit,
     onClickGoodsFromStocks: (stock: Stock) -> Unit,
+    onClickSelectTokuToku: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -116,7 +117,7 @@ fun SalesView(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = onClickSelectTokuToku) {
                     Text(
                         text = stringResource(id = R.string.select_toku_toku),
                         style = MaterialTheme.typography.displaySmall,
@@ -321,6 +322,7 @@ private fun SalesViewPreview() {
             onClickMinusForSelectedGoods = {},
             onClickPlusForSelectedGoods = {},
             onClickDeleteForSelectedGoods = {},
+            onClickSelectTokuToku = {},
         )
     }
 }

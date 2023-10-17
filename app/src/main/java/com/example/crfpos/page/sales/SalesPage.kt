@@ -89,6 +89,7 @@ fun SalesPage(
                 viewModel.addRequest(stock)
             },
             modifier = Modifier.padding(innerPadding),
+            onClickSelectTokuToku = { /* TODO: 実装 */ },
         )
     }
 }
