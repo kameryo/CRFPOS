@@ -24,5 +24,11 @@
     <string name="manage_records">売上管理</string>
     <string name="manage_sales">販売</string>
     <string name="export">export</string>
-
+    <string name="yen">%d円</string>
+    <string name="input">入力</string>
+    <string name="adjust">清算</string>
+    <string name="fare">運賃</string>
+    <string name="goods_sales">物販</string>
+    <string name="toku_toku">特企</string>
+    <string name="select_toku_toku">特企券選択</string>
 </resources>
