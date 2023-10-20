@@ -1,4 +1,4 @@
-package com.example.crfpos.page.records
+package com.example.crfpos.page.records.export
 
 import android.os.Bundle
 import android.view.Menu
@@ -13,41 +13,39 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crfpos.R
-import com.example.crfpos.databinding.RecordFragmentBinding
+import com.example.crfpos.databinding.ExportFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+
 
 @AndroidEntryPoint
-class RecordFragment : Fragment(R.layout.record_fragment) {
-    private val vm: RecordViewModel by viewModels()
+class ExportFragment : Fragment(R.layout.export_fragment) {
+    private val vm: ExportViewModel by viewModels()
 
-    private var _binding: RecordFragmentBinding? = null
-    private val binding: RecordFragmentBinding get() = _binding!!
+    private var _binding: ExportFragmentBinding? = null
+
+    private val binding: ExportFragmentBinding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this._binding = RecordFragmentBinding.bind(view)
+
+        this._binding = ExportFragmentBinding.bind(view)
 
         val menuHost: MenuHost = requireActivity()
 
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_records, menu)
+                menuInflater.inflate(R.menu.menu_add_stock, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_home -> {
-                        findNavController().popBackStack()
+                    R.id.action_done -> {
                         true
                     }
 
-                    R.id.action_add -> {
+                    R.id.action_back -> {
                         findNavController().popBackStack()
-                        true
-                    }
-
-                    R.id.action_export -> {
-                        findNavController().navigate(R.id.action_recordsFragment_to_exportFragment)
                         true
                     }
 
@@ -56,15 +54,30 @@ class RecordFragment : Fragment(R.layout.record_fragment) {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val adapter = RecordAdapter {
+        val adapter = ExportAdapter {
 
         }
-        binding.recordRecycler.layoutManager =
+
+
+        binding.exportRecycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding.recordRecycler.adapter = adapter
+        binding.exportRecycler.adapter = adapter
 
-        vm.recordList.observe(viewLifecycleOwner) { record ->
-            adapter.submitList(record)
+        vm.dateList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
+
+
+    }
+
+    private fun saveFile(str: String?) {
+
+        val fileName = "exported_data.csv"
+
+        File(context?.filesDir, "my-file.txt").writer().use {
+            it.write("my-file.")
+        }
+
+
     }
 }

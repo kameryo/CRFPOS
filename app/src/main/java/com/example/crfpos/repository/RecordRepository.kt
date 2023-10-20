@@ -1,6 +1,7 @@
 package com.example.crfpos.repository
 
 import com.example.crfpos.model.record.Record
+import com.example.crfpos.model.record.RecordDao
 import kotlinx.coroutines.flow.Flow
 
 interface RecordRepository {
@@ -11,5 +12,6 @@ interface RecordRepository {
 
     suspend fun delete(record: Record)
 
+    fun getDateList(): Flow<List<RecordDao.Summary>>
 
 }

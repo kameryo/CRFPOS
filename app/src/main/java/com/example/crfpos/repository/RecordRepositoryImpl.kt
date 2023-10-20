@@ -19,4 +19,8 @@ class RecordRepositoryImpl @Inject constructor(
     override suspend fun delete(record: Record) {
         dao.delete(record)
     }
+
+    override fun getDateList(): Flow<List<RecordDao.Summary>> {
+        return dao.getSummary()
+    }
 }

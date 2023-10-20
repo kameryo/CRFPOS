@@ -15,5 +15,26 @@ interface RecordDao {
     suspend fun delete(record: Record)
 
     @Query("SELECT * FROM Record ORDER BY _id desc")
-    fun getAll() : Flow<List<Record>>
+    fun getAll(): Flow<List<Record>>
+
+    @Query(
+        "SELECT " +
+                "date(datetime(time, 'unixepoch')) AS date," +
+                "COUNT(*) AS numOfSales," +
+                "SUM(total) AS salesAll," +
+                "SUM(fareSales) AS salesRail," +
+                "SUM(goodsSales) AS salesGoods," +
+                "SUM(adult) + SUM(child) AS numOfPerson" +
+                " FROM Record GROUP BY date ORDER BY date DESC"
+    )
+    fun getSummary(): Flow<List<Summary>>
+
+    data class Summary(
+        val date: String,
+        val numOfSales: Int,
+        val salesAll: Int,
+        val salesRail: Int,
+        val salesGoods: Int,
+        val numOfPerson: Int
+    )
 }
