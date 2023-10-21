@@ -26,5 +26,17 @@ class StockRepositoryImpl @Inject constructor(
         dao.delete(stock)
     }
 
+    override suspend fun update(stock: Stock, name: String, price: Int, remain: Int) {
+        val updateStock = Stock(
+            _id = stock._id,
+            name = name,
+            price = price,
+            purchases = remain,
+            remain = remain
+        )
+        withContext(Dispatchers.IO) {
+            dao.update(updateStock)
+        }
+    }
 
 }

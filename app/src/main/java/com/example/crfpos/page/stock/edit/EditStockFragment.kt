@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.crfpos.R
 import com.example.crfpos.databinding.EditStockFragmentBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -62,6 +63,7 @@ class EditStockFragment : Fragment(R.layout.edit_stock_fragment) {
                         true
                     }
                     R.id.action_done -> {
+                        save()
                         true
                     }
                     R.id.action_back -> {
@@ -73,12 +75,20 @@ class EditStockFragment : Fragment(R.layout.edit_stock_fragment) {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
+        val stock = args.stock
+        binding.nameEdit.setText(stock.name)
+        binding.priceEdit.setText(stock.price.toString())
+        binding.quantityEdit.setText(stock.remain.toString())
 
-        vm.stock.observe(viewLifecycleOwner) { stock ->
-            binding.name.text = stock.name
-            binding.price.text = stock.price.toString()
-            binding.purchases.text = stock.purchases.toString()
-            binding.remain.text = stock.remain.toString()
+        vm.errorMessage.observe(viewLifecycleOwner) { msg ->
+            if (msg.isEmpty()) return@observe
+
+            Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show()
+            vm.errorMessage.value = ""
+        }
+
+        vm.done.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
         }
 
         vm.deleted.observe(viewLifecycleOwner) { deleted ->
@@ -91,5 +101,17 @@ class EditStockFragment : Fragment(R.layout.edit_stock_fragment) {
 
     }
 
+    private fun save() {
+        val name = binding.nameEdit.text.toString()
+        val price = binding.priceEdit.text.toString()
+        val remain = binding.quantityEdit.text.toString()
+
+        vm.save(args.stock, name, price, remain)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        this._binding = null
+    }
 
 }
