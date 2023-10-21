@@ -1,4 +1,4 @@
-package com.example.crfpos.page.records.export
+package com.example.crfpos.page.record.export
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -23,8 +23,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_recordsFragment"
-            app:destination="@id/recordsFragment"
+            android:id="@+id/action_mainFragment_to_recordFragment"
+            app:destination="@id/recordFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -81,12 +81,19 @@
         android:name="com.example.crfpos.page.stock.edit.dialog.ConfirmDialogFragment"
         android:label="ConfirmDialogFragment" />
     <fragment
-        android:id="@+id/recordsFragment"
-        android:name="com.example.crfpos.page.records.RecordFragment"
-        android:label="RecordsFragment" >
+        android:id="@+id/recordFragment"
+        android:name="com.example.crfpos.page.record.RecordFragment"
+        android:label="RecordFragment" >
         <action
-            android:id="@+id/action_recordsFragment_to_exportFragment"
+            android:id="@+id/action_recordFragment_to_exportFragment"
             app:destination="@id/exportFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_recordFragment_to_editRecordFragment"
+            app:destination="@id/editRecordFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -98,6 +105,14 @@
         android:label="SalesConfirmDialogFragment" />
     <fragment
         android:id="@+id/exportFragment"
-        android:name="com.example.crfpos.page.records.export.ExportFragment"
+        android:name="com.example.crfpos.page.record.export.ExportFragment"
         android:label="ExportFragment" />
+    <fragment
+        android:id="@+id/editRecordFragment"
+        android:name="com.example.crfpos.page.record.edit.EditRecordFragment"
+        android:label="EditRecordFragment" >
+        <argument
+            android:name="record"
+            app:argType="com.example.crfpos.model.record.Record" />
+    </fragment>
 </navigation>

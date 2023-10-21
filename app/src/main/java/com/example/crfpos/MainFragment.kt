@@ -25,7 +25,7 @@ class MainFragment : Fragment(R.layout.main_fragment) {
         }
 
         binding.buttonRecords.setOnClickListener {
-            findNavController().navigate(R.id.action_mainFragment_to_recordsFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_recordFragment)
         }
 
         // salesFragmentだけComposeのTopAppBarを出すので、ActionBarを隠す

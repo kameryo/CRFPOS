@@ -1,4 +1,4 @@
-package com.example.crfpos.page.records
+package com.example.crfpos.page.record
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
