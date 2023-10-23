@@ -32,15 +32,11 @@ class ExportFragment : Fragment(R.layout.export_fragment) {
 
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_add_stock, menu)
+                menuInflater.inflate(R.menu.menu_summary, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_done -> {
-                        true
-                    }
-
                     R.id.action_back -> {
                         findNavController().popBackStack()
                         true

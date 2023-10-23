@@ -31,4 +31,5 @@
     <string name="goods_sales">物販</string>
     <string name="toku_toku">特企</string>
     <string name="select_toku_toku">特企券選択</string>
+    <string name="analytics">要約</string>
 </resources>

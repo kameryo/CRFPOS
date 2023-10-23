@@ -31,7 +31,7 @@ class RecordFragment : Fragment(R.layout.record_fragment) {
 
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_records, menu)
+                menuInflater.inflate(R.menu.menu_record, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -41,12 +41,7 @@ class RecordFragment : Fragment(R.layout.record_fragment) {
                         true
                     }
 
-                    R.id.action_add -> {
-                        findNavController().popBackStack()
-                        true
-                    }
-
-                    R.id.action_export -> {
+                    R.id.action_summary -> {
                         findNavController().navigate(R.id.action_recordFragment_to_exportFragment)
                         true
                     }

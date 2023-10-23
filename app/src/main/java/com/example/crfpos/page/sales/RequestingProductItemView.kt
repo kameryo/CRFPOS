@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -40,7 +41,7 @@ fun RequestingProductItemView(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .background(MaterialTheme.colorScheme.surface)
-            .width(400.dp)
+            .fillMaxWidth()
             .padding(8.dp),
     ) {
         Text(

@@ -27,14 +27,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.crfpos.R
 import com.example.crfpos.model.request.Request
 import com.example.crfpos.model.stock.Stock
+
+private const val MAX_PRICE_DIGITS = 7
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -62,6 +66,7 @@ fun SalesView(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(32.dp),
+            modifier = Modifier.width(400.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -124,7 +129,7 @@ fun SalesView(
                     )
                 }
                 Column {
-                    Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         Text(
                             text = stringResource(id = R.string.fare),
                             style = MaterialTheme.typography.displaySmall,
@@ -132,9 +137,17 @@ fun SalesView(
                         Text(
                             text = stringResource(id = R.string.yen, bindModel.subtotalFare),
                             style = MaterialTheme.typography.displaySmall,
+                            modifier = Modifier
+                                .width(
+                                    // MAX_PRICE_DIGITS分のwidthを確保する
+                                    with(LocalDensity.current) {
+                                        MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_PRICE_DIGITS
+                                    }
+                                ),
+                            textAlign = TextAlign.End
                         )
                     }
-                    Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         Text(
                             text = stringResource(id = R.string.toku_toku),
                             style = MaterialTheme.typography.displaySmall,
@@ -142,9 +155,17 @@ fun SalesView(
                         Text(
                             text = stringResource(id = R.string.yen, bindModel.specialFee),
                             style = MaterialTheme.typography.displaySmall,
+                            modifier = Modifier
+                                .width(
+                                    // MAX_PRICE_DIGITS分のwidthを確保する
+                                    with(LocalDensity.current) {
+                                        MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_PRICE_DIGITS
+                                    }
+                                ),
+                            textAlign = TextAlign.End
                         )
                     }
-                    Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         Text(
                             text = stringResource(id = R.string.goods_sales),
                             style = MaterialTheme.typography.displaySmall,
@@ -152,6 +173,14 @@ fun SalesView(
                         Text(
                             text = stringResource(id = R.string.yen, bindModel.subtotalGoods),
                             style = MaterialTheme.typography.displaySmall,
+                            modifier = Modifier
+                                .width(
+                                    // MAX_PRICE_DIGITS分のwidthを確保する
+                                    with(LocalDensity.current) {
+                                        MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_PRICE_DIGITS
+                                    }
+                                ),
+                            textAlign = TextAlign.End
                         )
                     }
                 }
@@ -300,8 +329,8 @@ private fun SalesViewPreview() {
                     )
                 ),
                 subtotalFare = 100,
-                specialFee = 200,
-                subtotalGoods = 300,
+                specialFee = 0,
+                subtotalGoods = 30000,
                 stocks = List(20) {
                     Stock(
                         name = "test",
