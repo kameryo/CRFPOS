@@ -14,4 +14,6 @@ interface RecordRepository {
 
     fun getDateList(): Flow<List<RecordDao.Summary>>
 
+    suspend fun getDiaryData(date: String): List<Record>
+
 }

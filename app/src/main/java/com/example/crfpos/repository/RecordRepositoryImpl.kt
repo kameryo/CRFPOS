@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class RecordRepositoryImpl @Inject constructor(
     private val dao: RecordDao
-) : RecordRepository{
+) : RecordRepository {
     override fun getAll(): Flow<List<Record>> {
         return dao.getAll()
     }
@@ -22,5 +22,9 @@ class RecordRepositoryImpl @Inject constructor(
 
     override fun getDateList(): Flow<List<RecordDao.Summary>> {
         return dao.getSummary()
+    }
+
+    override suspend fun getDiaryData(date: String): List<Record> {
+        return dao.getDiaryData(date)
     }
 }

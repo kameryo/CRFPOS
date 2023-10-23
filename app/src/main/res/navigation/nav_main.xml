@@ -106,7 +106,15 @@
     <fragment
         android:id="@+id/exportFragment"
         android:name="com.example.crfpos.page.record.export.ExportFragment"
-        android:label="ExportFragment" />
+        android:label="ExportFragment" >
+        <action
+            android:id="@+id/action_exportFragment_to_exportConfirmFragment"
+            app:destination="@id/exportConfirmFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/editRecordFragment"
         android:name="com.example.crfpos.page.record.edit.EditRecordFragment"
@@ -114,5 +122,13 @@
         <argument
             android:name="record"
             app:argType="com.example.crfpos.model.record.Record" />
+    </fragment>
+    <fragment
+        android:id="@+id/exportConfirmFragment"
+        android:name="com.example.crfpos.page.record.export.confirm.ExportConfirmFragment"
+        android:label="ExportConfirmFragment" >
+        <argument
+            android:name="date"
+            app:argType="string" />
     </fragment>
 </navigation>
