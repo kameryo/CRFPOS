@@ -4,7 +4,11 @@ import com.example.crfpos.model.request.Request
 
 class Calculator {
     fun calFare(adultNum: Int, childNum: Int): Int {
-        return adultNum * 10 + childNum * 100
+        return if (adultNum >= childNum) {
+            adultNum * 100
+        } else {
+            childNum * 100
+        }
     }
 
     fun calGoodsSubTotal(requestList: List<Request>?): Int {
