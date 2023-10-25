@@ -26,7 +26,7 @@ class ExportCSV {
                     it.write(",")
                     it.write(record.fareSales.toString())
                     it.write(",")
-                    it.write(record.otherSales.toString())
+                    it.write(record.couponSales.toString())
                     it.write(",")
                     it.write(record.goodsSales.toString())
                     it.write(",")

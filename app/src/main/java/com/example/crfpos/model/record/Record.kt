@@ -3,7 +3,7 @@ package com.example.crfpos.model.record
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.crfpos.model.request.Request
+import com.example.crfpos.model.selected.PendingPurchase
 import kotlinx.parcelize.Parcelize
 
 @Entity
@@ -14,10 +14,11 @@ data class Record(
     val time: Long,
     val total: Int,
     val fareSales: Int,
-    val otherSales: Int,
+    val couponSales: Int,
     val goodsSales: Int,
     val adult: Int,
     val child: Int,
-    val requestList: List<Request>?,
+    val couponList: List<PendingPurchase>?,
+    val goodsList: List<PendingPurchase>?,
     val memo: String
 ) : Parcelable

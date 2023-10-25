@@ -36,7 +36,6 @@ class RecordAdapter(
         holder.bindTo(record)
     }
 
-
     class ViewHolder(
         private val binding: RecordItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -50,19 +49,15 @@ class RecordAdapter(
             binding.personSum.text = (record.adult + record.child).toString() + "人"
             binding.fareSales.text = record.fareSales.toString() + "円"
             binding.goodsSales.text = record.goodsSales.toString() + "円"
-            binding.otherSales.text = record.otherSales.toString() + "円"
-
-
+            binding.otherSales.text = record.couponSales.toString() + "円"
         }
 
-        //        @RequiresApi(Build.VERSION_CODES.N)
         private fun convertUnixTimeToDateTime(unixTime: Long): String {
             val date = Date(unixTime * 1000)
             val formatter = SimpleDateFormat("yyyyMMdd HH:mm:ss", Locale.getDefault())
             return formatter.format(date)
         }
     }
-
 
     companion object {
         private val callback = object : DiffUtil.ItemCallback<Record>() {

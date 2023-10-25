@@ -2,7 +2,7 @@ package com.example.crfpos.repository
 
 import com.example.crfpos.model.request.Request
 import com.example.crfpos.model.request.RequestDao
-import com.example.crfpos.model.stock.Stock
+import com.example.crfpos.model.goods.Goods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -15,9 +15,9 @@ class RequestRepositoryImpl @Inject constructor(
         return dao.getAll()
     }
 
-    override suspend fun insert(stock: Stock, numOfOrder: Int) {
+    override suspend fun insert(goods: Goods, numOfOrder: Int) {
         val request =
-            Request(_id = stock._id, stockName = stock.name, stockPrice = stock.price, numOfOrder = numOfOrder)
+            Request(_id = goods._id, stockName = goods.name, stockPrice = goods.price, numOfOrder = numOfOrder)
         withContext(Dispatchers.IO) {
             dao.insert(request)
         }

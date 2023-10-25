@@ -30,6 +30,17 @@
     <string name="fare">運賃</string>
     <string name="goods_sales">物販</string>
     <string name="toku_toku">特企</string>
+    <string name="toku_toku_coupon">回数券</string>
     <string name="select_toku_toku">特企券選択</string>
     <string name="analytics">要約</string>
+    <string name="goods_name">商品名</string>
+    <string name="price">価格</string>
+    <string name="purchase">仕入れ量</string>
+    <string name="remain">残</string>
+    <string name="manage_goods">商品</string>
+    <string name="manage_coupon">特企券類</string>
+    <string name="manage_back">戻る</string>
+    <string name="time">時間</string>
+    <string name="sum">合計</string>
+    <string name="sales_and_repay">売上/返金額</string>
 </resources>

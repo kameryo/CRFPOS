@@ -16,15 +16,15 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_stockFragment"
-            app:destination="@id/stockFragment"
+            android:id="@+id/action_mainFragment_to_recordFragment"
+            app:destination="@id/recordFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_mainFragment_to_recordFragment"
-            app:destination="@id/recordFragment"
+            android:id="@+id/action_mainFragment_to_stockFragment"
+            app:destination="@id/stockFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -38,48 +38,6 @@
             android:id="@+id/action_salesFragment_to_salesConfirmDialogFragment"
             app:destination="@id/salesConfirmDialogFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/stockFragment"
-        android:name="com.example.crfpos.page.stock.StockFragment"
-        android:label="StockFragment" >
-        <action
-            android:id="@+id/action_stockFragment_to_addStockFragment"
-            app:destination="@id/addStockFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_stockFragment_to_editStockFragment"
-            app:destination="@id/editStockFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <fragment
-        android:id="@+id/addStockFragment"
-        android:name="com.example.crfpos.page.stock.add.AddStockFragment"
-        android:label="AddStockFragment" />
-    <fragment
-        android:id="@+id/editStockFragment"
-        android:name="com.example.crfpos.page.stock.edit.EditStockFragment"
-        android:label="EditStockFragment" >
-        <argument
-            android:name="stock"
-            app:argType="com.example.crfpos.model.stock.Stock" />
-        <action
-            android:id="@+id/action_editStockFragment_to_confirmDialogFragment"
-            app:destination="@id/confirmDialogFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <dialog
-        android:id="@+id/confirmDialogFragment"
-        android:name="com.example.crfpos.page.stock.edit.dialog.ConfirmDialogFragment"
-        android:label="ConfirmDialogFragment" />
     <fragment
         android:id="@+id/recordFragment"
         android:name="com.example.crfpos.page.record.RecordFragment"
@@ -130,5 +88,70 @@
         <argument
             android:name="date"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/addGoodsFragment"
+        android:name="com.example.crfpos.page.stock.goods.add.AddGoodsFragment"
+        android:label="AddGoodsFragment" />
+    <fragment
+        android:id="@+id/confirmDialogFragment"
+        android:name="com.example.crfpos.page.stock.goods.edit.dialog.ConfirmDialogFragment"
+        android:label="ConfirmDialogFragment" />
+    <fragment
+        android:id="@+id/editGoodsFragment"
+        android:name="com.example.crfpos.page.stock.goods.edit.EditGoodsFragment"
+        android:label="EditGoodsFragment" >
+        <action
+            android:id="@+id/action_editGoodsFragment_to_confirmDialogFragment"
+            app:destination="@id/confirmDialogFragment" />
+        <argument
+            android:name="goods"
+            app:argType="com.example.crfpos.model.goods.Goods" />
+    </fragment>
+    <fragment
+        android:id="@+id/goodsFragment"
+        android:name="com.example.crfpos.page.stock.goods.GoodsFragment"
+        android:label="GoodsFragment" >
+        <action
+            android:id="@+id/action_goodsFragment_to_addGoodsFragment"
+            app:destination="@id/addGoodsFragment" />
+        <action
+            android:id="@+id/action_goodsFragment_to_editGoodsFragment"
+            app:destination="@id/editGoodsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/stockFragment"
+        android:name="com.example.crfpos.page.stock.StockFragment"
+        android:label="StockFragment" >
+        <action
+            android:id="@+id/action_stockFragment_to_goodsFragment"
+            app:destination="@id/goodsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_stockFragment_to_couponFragment"
+            app:destination="@id/couponFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCouponFragment"
+        android:name="com.example.crfpos.page.stock.coupon.add.AddCouponFragment"
+        android:label="AddCouponFragment" />
+    <fragment
+        android:id="@+id/couponFragment"
+        android:name="com.example.crfpos.page.stock.coupon.CouponFragment"
+        android:label="CouponFragment" >
+        <action
+            android:id="@+id/action_couponFragment_to_addCouponFragment"
+            app:destination="@id/addCouponFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 </navigation>

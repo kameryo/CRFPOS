@@ -1,14 +1,14 @@
 package com.example.crfpos.repository
 
 import com.example.crfpos.model.request.Request
-import com.example.crfpos.model.stock.Stock
+import com.example.crfpos.model.goods.Goods
 import kotlinx.coroutines.flow.Flow
 
 interface RequestRepository {
 
     fun getAll(): Flow<List<Request>>
 
-    suspend fun insert(stock: Stock, numOfOrder: Int)
+    suspend fun insert(goods: Goods, numOfOrder: Int)
 
     suspend fun delete(request: Request)
 

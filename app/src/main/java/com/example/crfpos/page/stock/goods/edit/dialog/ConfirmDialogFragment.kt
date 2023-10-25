@@ -1,4 +1,4 @@
-package com.example.crfpos.page.stock.edit.dialog
+package com.example.crfpos.page.stock.goods.edit.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -12,7 +12,7 @@ class ConfirmDialogFragment : DialogFragment(){
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireActivity()).apply {
-            setMessage("このStockを削除しますか")
+            setMessage("この商品を削除しますか")
             setPositiveButton(android.R.string.ok, listener)
             setNegativeButton(android.R.string.cancel, listener)
         }.create()

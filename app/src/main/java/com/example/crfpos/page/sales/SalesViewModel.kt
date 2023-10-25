@@ -3,12 +3,13 @@ package com.example.crfpos.page.sales
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.crfpos.model.calculater.Calculator
+import com.example.crfpos.model.coupon.Coupon
 import com.example.crfpos.model.record.Record
-import com.example.crfpos.model.request.Request
-import com.example.crfpos.model.stock.Stock
+import com.example.crfpos.model.goods.Goods
+import com.example.crfpos.model.selected.PendingPurchase
+import com.example.crfpos.repository.CouponRepository
 import com.example.crfpos.repository.RecordRepository
-import com.example.crfpos.repository.RequestRepository
-import com.example.crfpos.repository.StockRepository
+import com.example.crfpos.repository.GoodsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,13 +27,15 @@ data class SalesViewModelState(
     val childCount: Int = 0,
     val adultManualCountText: String = "",
     val childManualCountText: String = "",
+    val selectedGoodsList: List<PendingPurchase> = emptyList(),
+    val selectedCouponList: List<PendingPurchase> = emptyList()
 )
 
 @HiltViewModel
 class SalesViewModel @Inject constructor(
-    stockRepo: StockRepository,
-    private val requestRepo: RequestRepository,
-    private val recordRepo: RecordRepository
+    stockRepo: GoodsRepository,
+    private val recordRepo: RecordRepository,
+    couponRepo: CouponRepository
 ) : ViewModel() {
     private val calculator = Calculator()
 
@@ -41,17 +44,19 @@ class SalesViewModel @Inject constructor(
 
     val bindModel = combine(
         stockRepo.getAll(),
-        requestRepo.getAll(),
+        couponRepo.getAll(),
         viewModelState,
-    ) { stockList, requestList, viewModelState ->
+    ) { stockList, couponList, viewModelState ->
         SalesBindModel(
             adultCount = viewModelState.adultCount,
             childCount = viewModelState.childCount,
-            selectedGoods = requestList,
-            stocks = stockList,
+            selectedGoods = viewModelState.selectedGoodsList,
+            selectedCoupon = viewModelState.selectedCouponList,
+            goods = stockList,
+            coupon = couponList,
             subtotalFare = calculator.calFare(viewModelState.adultCount, viewModelState.childCount),
-            specialFee = 0, // TODO: トクトク対応
-            subtotalGoods = calculator.calGoodsSubTotal(requestList),
+            subtotalCoupon = calculator.calSubTotalPendingPurchase(viewModelState.selectedCouponList),
+            subtotalGoods = calculator.calSubTotalPendingPurchase(viewModelState.selectedGoodsList),
             adultManualCountText = viewModelState.adultManualCountText,
             childManualCountText = viewModelState.childManualCountText,
         )
@@ -62,9 +67,11 @@ class SalesViewModel @Inject constructor(
             adultCount = 0,
             childCount = 0,
             selectedGoods = emptyList(),
-            stocks = emptyList(),
+            selectedCoupon = emptyList(),
+            goods = emptyList(),
+            coupon = emptyList(),
             subtotalFare = 0,
-            specialFee = 0,
+            subtotalCoupon = 0,
             subtotalGoods = 0,
         ),
     )
@@ -98,59 +105,108 @@ class SalesViewModel @Inject constructor(
         mutableViewModelState.update { it.copy(childCount = count) }
     }
 
-    fun addRequest(stock: Stock) {
-        viewModelScope.launch {
-            try {
-                requestRepo.insert(stock, 1)
-            } catch (e: Exception) {
-                mutableErrorMessageFlow.emit(e.message)
-            }
+    fun addGoodsToSelectedGoods(goods: Goods) {
+        val addGoods =
+            PendingPurchase(_id = goods._id, name = goods.name, price = goods.price, numOfOrder = 1)
+        mutableViewModelState.update {
+            it.copy(
+                selectedGoodsList = (it.selectedGoodsList + listOf(
+                    addGoods
+                )).sortedBy { goods -> goods._id })
         }
     }
 
-    fun delete(request: Request) {
-        viewModelScope.launch {
-            try {
-                requestRepo.delete(request)
-            } catch (e: Exception) {
-                mutableErrorMessageFlow.emit(e.message)
+    fun incrementGoods(selectedGoods: PendingPurchase) {
+        val updatedSelectedGoodsList = mutableViewModelState.value.selectedGoodsList.map { item ->
+            if (item._id == selectedGoods._id) {
+                item.copy(numOfOrder = item.numOfOrder + 1)
+            } else {
+                item
             }
+        }
+        mutableViewModelState.update { it.copy(selectedGoodsList = updatedSelectedGoodsList) }
+    }
+
+    fun decrementGoods(selectedGoods: PendingPurchase) {
+        val updatedSelectedGoodsList = mutableViewModelState.value.selectedGoodsList.map { item ->
+            if (item._id == selectedGoods._id) {
+                item.copy(numOfOrder = if (item.numOfOrder > 1) item.numOfOrder - 1 else 1)
+            } else {
+                item
+            }
+        }
+        mutableViewModelState.update { it.copy(selectedGoodsList = updatedSelectedGoodsList) }
+    }
+
+    fun deleteGoods(selectedGoods: PendingPurchase) {
+        val updatedSelectedGoodsList =
+            mutableViewModelState.value.selectedGoodsList.filter { item ->
+                item._id != selectedGoods._id
+            }
+        mutableViewModelState.update { it.copy(selectedGoodsList = updatedSelectedGoodsList) }
+    }
+
+    fun addCouponToSelectedCoupon(coupon: Coupon) {
+        val addCoupon =
+            PendingPurchase(
+                _id = coupon._id,
+                name = coupon.name,
+                price = coupon.price,
+                numOfOrder = 1
+            )
+        mutableViewModelState.update {
+            it.copy(
+                selectedCouponList = (it.selectedCouponList + listOf(
+                    addCoupon
+                )).sortedBy { coupon -> coupon._id })
         }
     }
 
-    fun incrementRequest(request: Request) {
-        viewModelScope.launch {
-            try {
-                requestRepo.incrementRequest(request)
-            } catch (e: Exception) {
-                mutableErrorMessageFlow.emit(e.message)
+    fun incrementCoupon(selectedCoupon: PendingPurchase) {
+        val updatedSelectedCouponList = mutableViewModelState.value.selectedCouponList.map { item ->
+            if (item._id == selectedCoupon._id) {
+                item.copy(numOfOrder = item.numOfOrder + 1)
+            } else {
+                item
             }
         }
+        mutableViewModelState.update { it.copy(selectedCouponList = updatedSelectedCouponList) }
     }
 
-    fun decrementRequest(request: Request) {
-        viewModelScope.launch {
-            try {
-                requestRepo.decrementRequest(request)
-            } catch (e: Exception) {
-                mutableErrorMessageFlow.emit(e.message)
+    fun decrementCoupon(selectedCoupon: PendingPurchase) {
+        val updatedSelectedCouponList = mutableViewModelState.value.selectedCouponList.map { item ->
+            if (item._id == selectedCoupon._id) {
+                item.copy(numOfOrder = if (item.numOfOrder > 1) item.numOfOrder - 1 else 1)
+            } else {
+                item
             }
         }
+        mutableViewModelState.update { it.copy(selectedCouponList = updatedSelectedCouponList) }
+    }
+
+    fun deleteCoupon(selectedCoupon: PendingPurchase) {
+        val updatedSelectedCouponList =
+            mutableViewModelState.value.selectedCouponList.filter { item ->
+                item._id != selectedCoupon._id
+            }
+        mutableViewModelState.update { it.copy(selectedCouponList = updatedSelectedCouponList) }
     }
 
     fun saveRecord() {
         val fareSales = bindModel.value.subtotalFare
         val goodsSales = bindModel.value.subtotalGoods
-        if (fareSales + goodsSales == 0) return
+        val couponSales = bindModel.value.subtotalCoupon
+        if (fareSales + goodsSales + couponSales == 0) return
         val record = Record(
             time = System.currentTimeMillis() / 1000,
-            total = fareSales + goodsSales,
+            total = fareSales + goodsSales + couponSales,
             fareSales = fareSales,
-            otherSales = 0,
+            couponSales = couponSales,
             goodsSales = goodsSales,
             adult = bindModel.value.adultCount,
             child = bindModel.value.childCount,
-            requestList = bindModel.value.selectedGoods,
+            goodsList = bindModel.value.selectedGoods,
+            couponList = bindModel.value.selectedCoupon,
             memo = "",
         )
         viewModelScope.launch {
@@ -168,15 +224,10 @@ class SalesViewModel @Inject constructor(
                 adultCount = 0,
                 childCount = 0,
                 adultManualCountText = "",
-                childManualCountText = ""
+                childManualCountText = "",
+                selectedGoodsList = emptyList(),
+                selectedCouponList = emptyList()
             )
-        }
-        viewModelScope.launch {
-            try {
-                requestRepo.deleteAll()
-            } catch (e: Exception) {
-                mutableErrorMessageFlow.emit(e.message)
-            }
         }
     }
 }

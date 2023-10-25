@@ -35,8 +35,9 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.crfpos.R
-import com.example.crfpos.model.request.Request
-import com.example.crfpos.model.stock.Stock
+import com.example.crfpos.model.coupon.Coupon
+import com.example.crfpos.model.goods.Goods
+import com.example.crfpos.model.selected.PendingPurchase
 
 private const val MAX_PRICE_DIGITS = 7
 
@@ -51,17 +52,20 @@ fun SalesView(
     onClickApplyAdultManualCountText: () -> Unit,
     onClickApplyChildManualCountText: () -> Unit,
     onClickAdjust: () -> Unit,
-    onClickMinusForSelectedGoods: (request: Request) -> Unit,
-    onClickPlusForSelectedGoods: (request: Request) -> Unit,
-    onClickDeleteForSelectedGoods: (request: Request) -> Unit,
-    onClickGoodsFromStocks: (stock: Stock) -> Unit,
-    onClickSelectTokuToku: () -> Unit,
+    onClickMinusForSelectedGoods: (selectedGoods: PendingPurchase) -> Unit,
+    onClickPlusForSelectedGoods: (selectedGoods: PendingPurchase) -> Unit,
+    onClickDeleteForSelectedGoods: (selectedGoods: PendingPurchase) -> Unit,
+    onClickMinusForSelectedCoupon: (selectedGoods: PendingPurchase) -> Unit,
+    onClickPlusForSelectedCoupon: (selectedGoods: PendingPurchase) -> Unit,
+    onClickDeleteForSelectedCoupon: (selectedGoods: PendingPurchase) -> Unit,
+    onClickGoodsFromStocks: (goods: Goods) -> Unit,
+    onClickCouponFromStocks: (coupon: Coupon) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 32.dp, horizontal = 32.dp),
+            .padding(vertical = 16.dp, horizontal = 32.dp),
         horizontalArrangement = Arrangement.spacedBy(32.dp),
     ) {
         Column(
@@ -78,7 +82,7 @@ fun SalesView(
                 Box(
                     modifier = Modifier
                         .width(110.dp)
-                        .height(90.dp),
+                        .height(70.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
@@ -93,7 +97,7 @@ fun SalesView(
                 Box(
                     modifier = Modifier
                         .width(110.dp)
-                        .height(90.dp),
+                        .height(70.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
@@ -103,31 +107,37 @@ fun SalesView(
                 }
             }
             LazyColumn {
-                items(bindModel.selectedGoods) { request ->
+                items(bindModel.selectedCoupon) { selected ->
                     RequestingProductItemView(
-                        productName = request.stockName,
-                        quantity = request.numOfOrder,
-                        price = request.stockPrice,
-                        onClickMinus = { onClickMinusForSelectedGoods(request) },
-                        onClickPlus = { onClickPlusForSelectedGoods(request) },
-                        onClickDelete = { onClickDeleteForSelectedGoods(request) },
+                        productName = selected.name,
+                        quantity = selected.numOfOrder,
+                        price = selected.price,
+                        onClickMinus = { onClickMinusForSelectedCoupon(selected) },
+                        onClickPlus = { onClickPlusForSelectedCoupon(selected) },
+                        onClickDelete = { onClickDeleteForSelectedCoupon(selected) },
+                    )
+                }
+            }
+            LazyColumn {
+                items(bindModel.selectedGoods) { selected ->
+                    RequestingProductItemView(
+                        productName = selected.name,
+                        quantity = selected.numOfOrder,
+                        price = selected.price,
+                        onClickMinus = { onClickMinusForSelectedGoods(selected) },
+                        onClickPlus = { onClickPlusForSelectedGoods(selected) },
+                        onClickDelete = { onClickDeleteForSelectedGoods(selected) },
                     )
                 }
             }
         }
         Column(
-            verticalArrangement = Arrangement.spacedBy(32.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Button(onClick = onClickSelectTokuToku) {
-                    Text(
-                        text = stringResource(id = R.string.select_toku_toku),
-                        style = MaterialTheme.typography.displaySmall,
-                    )
-                }
                 Column {
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         Text(
@@ -153,7 +163,7 @@ fun SalesView(
                             style = MaterialTheme.typography.displaySmall,
                         )
                         Text(
-                            text = stringResource(id = R.string.yen, bindModel.specialFee),
+                            text = stringResource(id = R.string.yen, bindModel.subtotalCoupon),
                             style = MaterialTheme.typography.displaySmall,
                             modifier = Modifier
                                 .width(
@@ -272,7 +282,18 @@ fun SalesView(
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Adaptive(120.dp),
             ) {
-                items(bindModel.stocks) { stock ->
+                items(bindModel.coupon) { coupon ->
+                    GoodsItemView(
+                        name = coupon.name,
+                        price = coupon.price,
+                        onClick = { onClickCouponFromStocks(coupon) },
+                    )
+                }
+            }
+            LazyVerticalStaggeredGrid(
+                columns = StaggeredGridCells.Adaptive(120.dp),
+            ) {
+                items(bindModel.goods) { stock ->
                     GoodsItemView(
                         name = stock.name,
                         price = stock.price,
@@ -322,23 +343,37 @@ private fun SalesViewPreview() {
                 adultCount = 1,
                 childCount = 2,
                 selectedGoods = listOf(
-                    Request(
-                        stockName = "test",
-                        stockPrice = 100,
+                    PendingPurchase(
+                        name = "test",
+                        price = 100,
+                        numOfOrder = 1,
+                    )
+                ),
+                selectedCoupon = listOf(
+                    PendingPurchase(
+                        name = "coupon",
+                        price = 100,
                         numOfOrder = 1,
                     )
                 ),
                 subtotalFare = 100,
-                specialFee = 0,
+                subtotalCoupon = 0,
                 subtotalGoods = 30000,
-                stocks = List(20) {
-                    Stock(
+                goods = List(20) {
+                    Goods(
                         name = "test",
                         price = 100,
                         purchases = 0,
                         remain = 0,
                     )
-                }
+                },
+                coupon = List(2) {
+                    Coupon(
+                        name = "coupon",
+                        price = 100,
+                        remain = 0,
+                    )
+                },
             ),
             onChangeAdultCount = {},
             onChangeChildCount = {},
@@ -351,7 +386,10 @@ private fun SalesViewPreview() {
             onClickMinusForSelectedGoods = {},
             onClickPlusForSelectedGoods = {},
             onClickDeleteForSelectedGoods = {},
-            onClickSelectTokuToku = {},
+            onClickMinusForSelectedCoupon = {},
+            onClickPlusForSelectedCoupon = {},
+            onClickDeleteForSelectedCoupon = {},
+            onClickCouponFromStocks = {},
         )
     }
 }

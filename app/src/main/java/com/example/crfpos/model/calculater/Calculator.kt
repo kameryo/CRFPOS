@@ -1,6 +1,6 @@
 package com.example.crfpos.model.calculater
 
-import com.example.crfpos.model.request.Request
+import com.example.crfpos.model.selected.PendingPurchase
 
 class Calculator {
     fun calFare(adultNum: Int, childNum: Int): Int {
@@ -11,9 +11,9 @@ class Calculator {
         }
     }
 
-    fun calGoodsSubTotal(requestList: List<Request>?): Int {
-        if (requestList != null) {
-            return requestList.sumBy { it.stockPrice * it.numOfOrder }
+    fun calSubTotalPendingPurchase(selectedList: List<PendingPurchase>?): Int {
+        if (selectedList != null) {
+            return selectedList.sumBy { it.price * it.numOfOrder }
         }
         return 0
     }

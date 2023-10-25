@@ -12,11 +12,13 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.crfpos.R
@@ -62,7 +64,12 @@ fun SalesPage(
                             contentDescription = null,
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.LightGray,
+                    titleContentColor = Color.Black,
+                    actionIconContentColor = Color.Black,
+                ),
             )
         },
         snackbarHost = {
@@ -81,15 +88,21 @@ fun SalesPage(
                 viewModel.saveRecord()
                 viewModel.clearInputs()
             },
-            onClickMinusForSelectedGoods = viewModel::decrementRequest,
-            onClickPlusForSelectedGoods = viewModel::incrementRequest,
-            onClickDeleteForSelectedGoods = viewModel::delete,
-            onClickGoodsFromStocks = { stock ->
-                if (bindModel.value.selectedGoods.any { it.stockName == stock.name }) return@SalesView
-                viewModel.addRequest(stock)
+            onClickMinusForSelectedGoods = viewModel::decrementGoods,
+            onClickPlusForSelectedGoods = viewModel::incrementGoods,
+            onClickDeleteForSelectedGoods = viewModel::deleteGoods,
+            onClickMinusForSelectedCoupon = viewModel::decrementCoupon,
+            onClickPlusForSelectedCoupon = viewModel::incrementCoupon,
+            onClickDeleteForSelectedCoupon = viewModel::deleteCoupon,
+            onClickGoodsFromStocks = { goods ->
+                if (bindModel.value.selectedGoods.any { it.name == goods.name }) return@SalesView
+                viewModel.addGoodsToSelectedGoods(goods)
             },
             modifier = Modifier.padding(innerPadding),
-            onClickSelectTokuToku = { /* TODO: 実装 */ },
+            onClickCouponFromStocks = { coupon ->
+                if (bindModel.value.selectedCoupon.any { it.name == coupon.name }) return@SalesView
+                viewModel.addCouponToSelectedCoupon(coupon)
+            },
         )
     }
 }

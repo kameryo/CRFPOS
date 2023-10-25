@@ -11,9 +11,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:gravity="center|right"
-        android:text="特企"
+        android:text="@string/toku_toku"
         android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintEnd_toStartOf="@+id/purchase"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:gravity="center|right"
-        android:text="合計"
+        android:text="@string/sum"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,19 +35,19 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:gravity="center|right"
-        android:text="大人"
+        android:text="@string/adult"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/date"
         android:layout_width="230dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:gravity="center|left"
-        android:text="時間"
+        android:text="@string/time"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +59,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:gravity="center|right"
-        android:text="子供"
+        android:text="@string/child"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toTopOf="parent" />
@@ -71,37 +71,37 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:gravity="center|right"
-        android:text="売上/返金額"
+        android:text="@string/sales_and_repay"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/price"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/price"
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:gravity="center|right"
-        android:text="運賃"
+        android:text="@string/fare"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/purchase"
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:gravity="center|right"
-        android:text="物販"
+        android:text="@string/goods_sales"
         android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/revise"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/revise"
         android:layout_width="80dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
@@ -122,6 +122,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

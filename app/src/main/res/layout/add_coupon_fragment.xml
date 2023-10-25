@@ -19,7 +19,7 @@
             android:id="@+id/name_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="商品名"
+            android:hint="@string/goods_name"
             android:inputType="text"
             android:singleLine="true"
             android:textSize="34sp" />
@@ -38,7 +38,7 @@
             android:id="@+id/price_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="値段"
+            android:hint="@string/price"
             android:inputType="number"
             android:singleLine="true"
             android:textSize="34sp" />
@@ -57,7 +57,7 @@
             android:id="@+id/quantity_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="数量"
+            android:hint="@string/purchase"
             android:inputType="number"
             android:singleLine="true"
             android:textSize="34sp" />

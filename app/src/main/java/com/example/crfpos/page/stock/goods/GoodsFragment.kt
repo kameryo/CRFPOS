@@ -1,4 +1,4 @@
-package com.example.crfpos.page.record.export.confirm
+package com.example.crfpos.page.stock.goods
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,65 +11,57 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crfpos.R
-import com.example.crfpos.databinding.ExportConfirmFragmentBinding
+import com.example.crfpos.databinding.GoodsFragmentBinding
+import com.example.crfpos.page.stock.goods.GoodsFragmentDirections.Companion.actionGoodsFragmentToEditGoodsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ExportConfirmFragment : Fragment(R.layout.export_confirm_fragment) {
-    private val vm: ExportConfirmViewModel by viewModels()
+class GoodsFragment : Fragment(R.layout.goods_fragment) {
+    private val vm: GoodsViewModel by viewModels()
 
-    private val args: ExportConfirmFragmentArgs by navArgs()
-
-    private var _binding: ExportConfirmFragmentBinding? = null
-
-    private val binding: ExportConfirmFragmentBinding get() = _binding!!
+    private var _binding: GoodsFragmentBinding? = null
+    private val binding: GoodsFragmentBinding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        this._binding = ExportConfirmFragmentBinding.bind(view)
+        this._binding = GoodsFragmentBinding.bind(view)
 
         val menuHost: MenuHost = requireActivity()
+
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_export_confirm, menu)
+                menuInflater.inflate(R.menu.menu_goods, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_export -> {
-                        exportCSV()
-                        findNavController().popBackStack()
-                        true
-                    }
-
-                    R.id.action_add -> {
-                        true
-                    }
-
                     R.id.action_home -> {
                         findNavController().popBackStack()
                         true
                     }
-
+                    R.id.action_add -> {
+                        findNavController().navigate(R.id.action_goodsFragment_to_addGoodsFragment)
+                        true
+                    }
                     else -> false
                 }
             }
-
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        binding.date.text = args.date
-    }
+        val adapter = GoodsAdapter {
+            val action = actionGoodsFragmentToEditGoodsFragment(it)
+            findNavController().navigate(action)
+        }
 
-    private fun exportCSV() {
-        vm.exportRecordToCSV(args.date, context)
-    }
+        binding.goodsRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.goodsRecycler.adapter = adapter
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        this._binding = null
-    }
+        vm.goodsList.observe(viewLifecycleOwner) { stock ->
+            adapter.submitList(stock)
+        }
 
+    }
 }

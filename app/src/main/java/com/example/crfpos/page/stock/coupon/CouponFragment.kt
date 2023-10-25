@@ -1,4 +1,4 @@
-package com.example.crfpos.page.record.export.confirm
+package com.example.crfpos.page.stock.coupon
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,65 +11,56 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crfpos.R
-import com.example.crfpos.databinding.ExportConfirmFragmentBinding
+import com.example.crfpos.databinding.CouponFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ExportConfirmFragment : Fragment(R.layout.export_confirm_fragment) {
-    private val vm: ExportConfirmViewModel by viewModels()
+class CouponFragment : Fragment(R.layout.coupon_fragment) {
+    private val vm: CouponViewModel by viewModels()
 
-    private val args: ExportConfirmFragmentArgs by navArgs()
-
-    private var _binding: ExportConfirmFragmentBinding? = null
-
-    private val binding: ExportConfirmFragmentBinding get() = _binding!!
+    private var _binding: CouponFragmentBinding? = null
+    private val binding: CouponFragmentBinding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        this._binding = ExportConfirmFragmentBinding.bind(view)
+        this._binding = CouponFragmentBinding.bind(view)
 
         val menuHost: MenuHost = requireActivity()
+
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_export_confirm, menu)
+                menuInflater.inflate(R.menu.menu_coupon, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_export -> {
-                        exportCSV()
-                        findNavController().popBackStack()
-                        true
-                    }
-
-                    R.id.action_add -> {
-                        true
-                    }
-
                     R.id.action_home -> {
                         findNavController().popBackStack()
                         true
                     }
-
+                    R.id.action_add -> {
+                        findNavController().navigate(R.id.action_couponFragment_to_addCouponFragment)
+                        true
+                    }
                     else -> false
                 }
             }
-
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        binding.date.text = args.date
-    }
+        val adapter = CouponAdapter {
+//            val action = GoodsFragmentDirections.actionGoodsFragmentToEditGoodsFragment(it)
+//            findNavController().navigate(action)
+        }
 
-    private fun exportCSV() {
-        vm.exportRecordToCSV(args.date, context)
-    }
+        binding.couponRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.couponRecycler.adapter = adapter
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        this._binding = null
-    }
+        vm.couponList.observe(viewLifecycleOwner) { coupon ->
+            adapter.submitList(coupon)
+        }
 
+    }
 }

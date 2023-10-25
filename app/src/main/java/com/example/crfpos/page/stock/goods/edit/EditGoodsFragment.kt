@@ -1,4 +1,4 @@
-package com.example.crfpos.page.stock.edit
+package com.example.crfpos.page.stock.goods.edit
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -15,18 +15,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.crfpos.R
-import com.example.crfpos.databinding.EditStockFragmentBinding
+import com.example.crfpos.databinding.EditGoodsFragmentBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EditStockFragment : Fragment(R.layout.edit_stock_fragment) {
-    private val vm: EditStockViewModel by viewModels()
+class EditGoodsFragment : Fragment(R.layout.edit_goods_fragment) {
+    private val vm: EditGoodsViewModel by viewModels()
 
-    private val args: EditStockFragmentArgs by navArgs()
+    private val args: EditGoodsFragmentArgs by navArgs()
 
-    private var _binding: EditStockFragmentBinding? = null
-    private val binding: EditStockFragmentBinding get() = _binding!!
+    private var _binding: EditGoodsFragmentBinding? = null
+    private val binding: EditGoodsFragmentBinding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,14 +39,14 @@ class EditStockFragment : Fragment(R.layout.edit_stock_fragment) {
         }
 
         if (savedInstanceState == null) {
-            vm.stock.value = args.stock
+            vm.goods.value = args.goods
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this._binding = EditStockFragmentBinding.bind(view)
+        this._binding = EditGoodsFragmentBinding.bind(view)
 
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
@@ -58,7 +58,7 @@ class EditStockFragment : Fragment(R.layout.edit_stock_fragment) {
                 return when (menuItem.itemId) {
                     R.id.action_delete -> {
                         findNavController().navigate(
-                            R.id.action_editStockFragment_to_confirmDialogFragment
+                            R.id.action_editGoodsFragment_to_confirmDialogFragment
                         )
                         true
                     }
@@ -75,7 +75,7 @@ class EditStockFragment : Fragment(R.layout.edit_stock_fragment) {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        val stock = args.stock
+        val stock = args.goods
         binding.nameEdit.setText(stock.name)
         binding.priceEdit.setText(stock.price.toString())
         binding.quantityEdit.setText(stock.remain.toString())
@@ -106,7 +106,7 @@ class EditStockFragment : Fragment(R.layout.edit_stock_fragment) {
         val price = binding.priceEdit.text.toString()
         val remain = binding.quantityEdit.text.toString()
 
-        vm.save(args.stock, name, price, remain)
+        vm.save(args.goods, name, price, remain)
     }
 
     override fun onDestroyView() {

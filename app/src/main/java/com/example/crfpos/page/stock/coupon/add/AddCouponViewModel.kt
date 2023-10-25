@@ -1,16 +1,16 @@
-package com.example.crfpos.page.stock.add
+package com.example.crfpos.page.stock.coupon.add
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.crfpos.repository.StockRepository
+import com.example.crfpos.repository.CouponRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddViewModel @Inject constructor(
-    private val repo: StockRepository
+class AddCouponViewModel @Inject constructor(
+    private val repo: CouponRepository
 ) : ViewModel() {
     val errorMessage = MutableLiveData<String>()
     val done = MutableLiveData<Boolean>()

@@ -86,7 +86,7 @@ class EditRecordFragment : Fragment(R.layout.edit_record_fragment) {
             binding.personSumText.text = (record.adult + record.child).toString() + "人"
             binding.fareSalesText.text = record.fareSales.toString() + "円"
             binding.goodsSalesText.text = record.goodsSales.toString() + "円"
-            binding.otherSalesText.text = record.otherSales.toString() + "円"
+            binding.otherSalesText.text = record.couponSales.toString() + "円"
         }
 
         vm.deleted.observe(viewLifecycleOwner) { deleted ->
