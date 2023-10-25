@@ -6,16 +6,12 @@ import com.example.crfpos.model.coupon.CouponDao
 import com.example.crfpos.model.coupon.CouponDatabase
 import com.example.crfpos.model.record.RecordDao
 import com.example.crfpos.model.record.RecordDatabase
-import com.example.crfpos.model.request.RequestDao
-import com.example.crfpos.model.request.RequestDatabase
 import com.example.crfpos.model.goods.GoodsDao
 import com.example.crfpos.model.goods.GoodsDatabase
 import com.example.crfpos.repository.CouponRepository
 import com.example.crfpos.repository.CouponRepositoryImpl
 import com.example.crfpos.repository.RecordRepository
 import com.example.crfpos.repository.RecordRepositoryImpl
-import com.example.crfpos.repository.RequestRepository
-import com.example.crfpos.repository.RequestRepositoryImpl
 import com.example.crfpos.repository.GoodsRepository
 import com.example.crfpos.repository.GoodsRepositoryImpl
 import dagger.Binds
@@ -42,22 +38,6 @@ object POSModule {
             context,
             GoodsDatabase::class.java,
             "goods_database"
-        ).fallbackToDestructiveMigration().build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRequestDao(requestDatabase: RequestDatabase): RequestDao {
-        return requestDatabase.requestDao()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRequestDatabase(@ApplicationContext context: Context): RequestDatabase {
-        return Room.databaseBuilder(
-            context,
-            RequestDatabase::class.java,
-            "request_database"
         ).fallbackToDestructiveMigration().build()
     }
 
@@ -103,17 +83,6 @@ abstract class GoodsRepositoryModule {
     abstract fun bindGoodsRepository(
         impl: GoodsRepositoryImpl
     ): GoodsRepository
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class RequestRepositoryModule {
-
-    @Singleton
-    @Binds
-    abstract fun bindRequestRepository(
-        impl: RequestRepositoryImpl
-    ): RequestRepository
 }
 
 @Module
