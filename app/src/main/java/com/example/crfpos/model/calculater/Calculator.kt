@@ -13,7 +13,7 @@ class Calculator {
 
     fun calSubTotalPendingPurchase(selectedList: List<PendingPurchase>?): Int {
         if (selectedList != null) {
-            return selectedList.sumBy { it.price * it.numOfOrder }
+            return selectedList.sumOf { it.price * it.numOfOrder }
         }
         return 0
     }
