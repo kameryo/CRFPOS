@@ -91,18 +91,18 @@ fun SalesPage(
             onClickMinusForSelectedGoods = viewModel::decrementGoods,
             onClickPlusForSelectedGoods = viewModel::incrementGoods,
             onClickDeleteForSelectedGoods = viewModel::deleteGoods,
-            onClickMinusForSelectedCoupon = viewModel::decrementCoupon,
-            onClickPlusForSelectedCoupon = viewModel::incrementCoupon,
-            onClickDeleteForSelectedCoupon = viewModel::deleteCoupon,
+//            onClickMinusForSelectedCoupon = viewModel::decrementCoupon,
+//            onClickPlusForSelectedCoupon = viewModel::incrementCoupon,
+//            onClickDeleteForSelectedCoupon = viewModel::deleteCoupon,
             onClickGoodsFromStocks = { goods ->
                 if (bindModel.value.selectedGoods.any { it.name == goods.name }) return@SalesView
                 viewModel.addGoodsToSelectedGoods(goods)
             },
             modifier = Modifier.padding(innerPadding),
-            onClickCouponFromStocks = { coupon ->
-                if (bindModel.value.selectedCoupon.any { it.name == coupon.name }) return@SalesView
-                viewModel.addCouponToSelectedCoupon(coupon)
-            },
+//            onClickCouponFromStocks = { coupon ->
+//                if (bindModel.value.selectedCoupon.any { it.name == coupon.name }) return@SalesView
+//                viewModel.addCouponToSelectedCoupon(coupon)
+//            },
         )
     }
 }

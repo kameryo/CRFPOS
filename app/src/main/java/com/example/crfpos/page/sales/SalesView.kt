@@ -43,7 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.example.crfpos.R
-import com.example.crfpos.model.coupon.Coupon
+//import com.example.crfpos.model.coupon.Coupon
 import com.example.crfpos.model.goods.Goods
 import com.example.crfpos.model.selected.PendingPurchase
 
@@ -63,11 +63,11 @@ fun SalesView(
     onClickMinusForSelectedGoods: (selectedGoods: PendingPurchase) -> Unit,
     onClickPlusForSelectedGoods: (selectedGoods: PendingPurchase) -> Unit,
     onClickDeleteForSelectedGoods: (selectedGoods: PendingPurchase) -> Unit,
-    onClickMinusForSelectedCoupon: (selectedGoods: PendingPurchase) -> Unit,
-    onClickPlusForSelectedCoupon: (selectedGoods: PendingPurchase) -> Unit,
-    onClickDeleteForSelectedCoupon: (selectedGoods: PendingPurchase) -> Unit,
+//    onClickMinusForSelectedCoupon: (selectedGoods: PendingPurchase) -> Unit,
+//    onClickPlusForSelectedCoupon: (selectedGoods: PendingPurchase) -> Unit,
+//    onClickDeleteForSelectedCoupon: (selectedGoods: PendingPurchase) -> Unit,
     onClickGoodsFromStocks: (goods: Goods) -> Unit,
-    onClickCouponFromStocks: (coupon: Coupon) -> Unit,
+//    onClickCouponFromStocks: (coupon: Coupon) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -164,18 +164,18 @@ fun SalesView(
                     )
                 }
             }
-            LazyColumn {
-                items(bindModel.selectedCoupon) { selected ->
-                    RequestingProductItemView(
-                        productName = selected.name,
-                        quantity = selected.numOfOrder,
-                        price = selected.price,
-                        onClickMinus = { onClickMinusForSelectedCoupon(selected) },
-                        onClickPlus = { onClickPlusForSelectedCoupon(selected) },
-                        onClickDelete = { onClickDeleteForSelectedCoupon(selected) },
-                    )
-                }
-            }
+//            LazyColumn {
+//                items(bindModel.selectedCoupon) { selected ->
+//                    RequestingProductItemView(
+//                        productName = selected.name,
+//                        quantity = selected.numOfOrder,
+//                        price = selected.price,
+//                        onClickMinus = { onClickMinusForSelectedCoupon(selected) },
+//                        onClickPlus = { onClickPlusForSelectedCoupon(selected) },
+//                        onClickDelete = { onClickDeleteForSelectedCoupon(selected) },
+//                    )
+//                }
+//            }
             LazyColumn {
                 items(bindModel.selectedGoods) { selected ->
                     RequestingProductItemView(
@@ -215,24 +215,24 @@ fun SalesView(
                             textAlign = TextAlign.End
                         )
                     }
-                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Text(
-                            text = stringResource(id = R.string.toku_toku),
-                            style = MaterialTheme.typography.displaySmall,
-                        )
-                        Text(
-                            text = stringResource(id = R.string.yen, bindModel.subtotalCoupon),
-                            style = MaterialTheme.typography.displaySmall,
-                            modifier = Modifier
-                                .width(
-                                    // MAX_PRICE_DIGITS分のwidthを確保する
-                                    with(LocalDensity.current) {
-                                        MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_PRICE_DIGITS
-                                    }
-                                ),
-                            textAlign = TextAlign.End
-                        )
-                    }
+//                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+//                        Text(
+//                            text = stringResource(id = R.string.toku_toku),
+//                            style = MaterialTheme.typography.displaySmall,
+//                        )
+//                        Text(
+//                            text = stringResource(id = R.string.yen, bindModel.subtotalCoupon),
+//                            style = MaterialTheme.typography.displaySmall,
+//                            modifier = Modifier
+//                                .width(
+//                                    // MAX_PRICE_DIGITS分のwidthを確保する
+//                                    with(LocalDensity.current) {
+//                                        MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_PRICE_DIGITS
+//                                    }
+//                                ),
+//                            textAlign = TextAlign.End
+//                        )
+//                    }
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         Text(
                             text = stringResource(id = R.string.goods_sales),
@@ -340,17 +340,17 @@ fun SalesView(
                     )
                 }
             }
-            LazyVerticalStaggeredGrid(
-                columns = StaggeredGridCells.Adaptive(120.dp),
-            ) {
-                items(bindModel.coupon) { coupon ->
-                    GoodsItemView(
-                        name = coupon.name,
-                        price = coupon.price,
-                        onClick = { onClickCouponFromStocks(coupon) },
-                    )
-                }
-            }
+//            LazyVerticalStaggeredGrid(
+//                columns = StaggeredGridCells.Adaptive(120.dp),
+//            ) {
+//                items(bindModel.coupon) { coupon ->
+//                    GoodsItemView(
+//                        name = coupon.name,
+//                        price = coupon.price,
+//                        onClick = { onClickCouponFromStocks(coupon) },
+//                    )
+//                }
+//            }
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Adaptive(120.dp),
             ) {
@@ -453,15 +453,15 @@ private fun SalesViewPreview() {
                         numOfOrder = 1,
                     )
                 ),
-                selectedCoupon = listOf(
-                    PendingPurchase(
-                        name = "coupon",
-                        price = 100,
-                        numOfOrder = 1,
-                    )
-                ),
+//                selectedCoupon = listOf(
+//                    PendingPurchase(
+//                        name = "coupon",
+//                        price = 100,
+//                        numOfOrder = 1,
+//                    )
+//                ),
                 subtotalFare = 100,
-                subtotalCoupon = 0,
+//                subtotalCoupon = 0,
                 subtotalGoods = 30000,
                 goods = List(20) {
                     Goods(
@@ -471,13 +471,13 @@ private fun SalesViewPreview() {
                         remain = 0,
                     )
                 },
-                coupon = List(2) {
-                    Coupon(
-                        name = "coupon",
-                        price = 100,
-                        remain = 0,
-                    )
-                },
+//                coupon = List(2) {
+//                    Coupon(
+//                        name = "coupon",
+//                        price = 100,
+//                        remain = 0,
+//                    )
+//                },
             ),
             onChangeAdultCount = {},
             onChangeChildCount = {},
@@ -490,10 +490,10 @@ private fun SalesViewPreview() {
             onClickMinusForSelectedGoods = {},
             onClickPlusForSelectedGoods = {},
             onClickDeleteForSelectedGoods = {},
-            onClickMinusForSelectedCoupon = {},
-            onClickPlusForSelectedCoupon = {},
-            onClickDeleteForSelectedCoupon = {},
-            onClickCouponFromStocks = {},
+//            onClickMinusForSelectedCoupon = {},
+//            onClickPlusForSelectedCoupon = {},
+//            onClickDeleteForSelectedCoupon = {},
+//            onClickCouponFromStocks = {},
         )
     }
 }

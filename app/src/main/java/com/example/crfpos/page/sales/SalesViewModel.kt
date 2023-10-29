@@ -3,7 +3,7 @@ package com.example.crfpos.page.sales
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.crfpos.model.calculater.Calculator
-import com.example.crfpos.model.coupon.Coupon
+//import com.example.crfpos.model.coupon.Coupon
 import com.example.crfpos.model.record.Record
 import com.example.crfpos.model.goods.Goods
 import com.example.crfpos.model.selected.PendingPurchase
@@ -146,51 +146,51 @@ class SalesViewModel @Inject constructor(
         mutableViewModelState.update { it.copy(selectedGoodsList = updatedSelectedGoodsList) }
     }
 
-    fun addCouponToSelectedCoupon(coupon: Coupon) {
-        val addCoupon =
-            PendingPurchase(
-                _id = coupon._id,
-                name = coupon.name,
-                price = coupon.price,
-                numOfOrder = 1
-            )
-        mutableViewModelState.update {
-            it.copy(
-                selectedCouponList = (it.selectedCouponList + listOf(
-                    addCoupon
-                )).sortedBy { coupon -> coupon._id })
-        }
-    }
-
-    fun incrementCoupon(selectedCoupon: PendingPurchase) {
-        val updatedSelectedCouponList = mutableViewModelState.value.selectedCouponList.map { item ->
-            if (item._id == selectedCoupon._id) {
-                item.copy(numOfOrder = item.numOfOrder + 1)
-            } else {
-                item
-            }
-        }
-        mutableViewModelState.update { it.copy(selectedCouponList = updatedSelectedCouponList) }
-    }
-
-    fun decrementCoupon(selectedCoupon: PendingPurchase) {
-        val updatedSelectedCouponList = mutableViewModelState.value.selectedCouponList.map { item ->
-            if (item._id == selectedCoupon._id) {
-                item.copy(numOfOrder = if (item.numOfOrder > 1) item.numOfOrder - 1 else 1)
-            } else {
-                item
-            }
-        }
-        mutableViewModelState.update { it.copy(selectedCouponList = updatedSelectedCouponList) }
-    }
-
-    fun deleteCoupon(selectedCoupon: PendingPurchase) {
-        val updatedSelectedCouponList =
-            mutableViewModelState.value.selectedCouponList.filter { item ->
-                item._id != selectedCoupon._id
-            }
-        mutableViewModelState.update { it.copy(selectedCouponList = updatedSelectedCouponList) }
-    }
+//    fun addCouponToSelectedCoupon(coupon: Coupon) {
+//        val addCoupon =
+//            PendingPurchase(
+//                _id = coupon._id,
+//                name = coupon.name,
+//                price = coupon.price,
+//                numOfOrder = 1
+//            )
+//        mutableViewModelState.update {
+//            it.copy(
+//                selectedCouponList = (it.selectedCouponList + listOf(
+//                    addCoupon
+//                )).sortedBy { coupon -> coupon._id })
+//        }
+//    }
+//
+//    fun incrementCoupon(selectedCoupon: PendingPurchase) {
+//        val updatedSelectedCouponList = mutableViewModelState.value.selectedCouponList.map { item ->
+//            if (item._id == selectedCoupon._id) {
+//                item.copy(numOfOrder = item.numOfOrder + 1)
+//            } else {
+//                item
+//            }
+//        }
+//        mutableViewModelState.update { it.copy(selectedCouponList = updatedSelectedCouponList) }
+//    }
+//
+//    fun decrementCoupon(selectedCoupon: PendingPurchase) {
+//        val updatedSelectedCouponList = mutableViewModelState.value.selectedCouponList.map { item ->
+//            if (item._id == selectedCoupon._id) {
+//                item.copy(numOfOrder = if (item.numOfOrder > 1) item.numOfOrder - 1 else 1)
+//            } else {
+//                item
+//            }
+//        }
+//        mutableViewModelState.update { it.copy(selectedCouponList = updatedSelectedCouponList) }
+//    }
+//
+//    fun deleteCoupon(selectedCoupon: PendingPurchase) {
+//        val updatedSelectedCouponList =
+//            mutableViewModelState.value.selectedCouponList.filter { item ->
+//                item._id != selectedCoupon._id
+//            }
+//        mutableViewModelState.update { it.copy(selectedCouponList = updatedSelectedCouponList) }
+//    }
 
     fun saveRecord() {
         val fareSales = bindModel.value.subtotalFare
