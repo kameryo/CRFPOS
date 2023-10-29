@@ -1,5 +1,6 @@
 package com.example.crfpos.page.sales
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,17 +26,22 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.sp
 import com.example.crfpos.R
 import com.example.crfpos.model.coupon.Coupon
 import com.example.crfpos.model.goods.Goods
@@ -74,35 +82,85 @@ fun SalesView(
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(
-                    text = stringResource(id = R.string.adult),
-                    style = MaterialTheme.typography.displayMedium,
-                )
                 Box(
                     modifier = Modifier
-                        .width(110.dp)
+                        .width(100.dp)
                         .height(70.dp),
                     contentAlignment = Alignment.Center,
                 ) {
+                    CustomBorder(
+                        1.5.dp,
+                        Color.DarkGray,
+                        Color.White,
+                        Color.DarkGray,
+                        Color.White
+                    )
                     Text(
-                        text = bindModel.adultCount.toString(),
-                        style = MaterialTheme.typography.displayMedium,
+                        text = stringResource(id = R.string.adult),
+                        fontSize = 30.sp,
+                        color = Color.Blue
                     )
                 }
-                Text(
-                    text = stringResource(id = R.string.child),
-                    style = MaterialTheme.typography.displayMedium,
-                )
                 Box(
                     modifier = Modifier
-                        .width(110.dp)
+                        .width(80.dp)
+                        .height(70.dp)
+                        .background(Color.White),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CustomBorder(
+                        1.5.dp,
+                        Color.DarkGray,
+                        Color.DarkGray,
+                        Color.DarkGray,
+                        Color.DarkGray
+                    )
+                    Text(
+                        text = bindModel.adultCount.toString(),
+                        fontSize = 40.sp,
+                        color = Color.Black
+                    )
+                }
+                Spacer(modifier = Modifier.weight(10F))
+                Box(
+                    modifier = Modifier
+                        .width(100.dp)
                         .height(70.dp),
                     contentAlignment = Alignment.Center,
                 ) {
+                    CustomBorder(
+                        1.5.dp,
+                        Color.DarkGray,
+                        Color.White,
+                        Color.DarkGray,
+                        Color.White
+                    )
+                    Text(
+                        text = stringResource(id = R.string.child),
+                        fontSize = 30.sp,
+                        color = Color.Blue
+                    )
+                }
+                Box(
+                    modifier = Modifier
+                        .width(80.dp)
+                        .height(70.dp)
+                        .background(Color.White),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CustomBorder(
+                        1.5.dp,
+                        Color.DarkGray,
+                        Color.DarkGray,
+                        Color.DarkGray,
+                        Color.DarkGray
+                    )
                     Text(
                         text = bindModel.childCount.toString(),
-                        style = MaterialTheme.typography.displayMedium,
+                        fontSize = 40.sp,
+                        color = Color.Black
                     )
                 }
             }
@@ -212,15 +270,15 @@ fun SalesView(
                             SquareButton(
                                 text = stringResource(id = R.string.adult) + count,
                                 onClick = { onChangeAdultCount(count) },
-                                backgroundColor = MaterialTheme.colorScheme.primary,
-                                textColor = MaterialTheme.colorScheme.onPrimary,
+                                backgroundColor = Color.Cyan,
+                                textColor = Color.Black,
                             )
                         } else {
                             SquareButton(
                                 text = stringResource(id = R.string.adult) + count,
                                 onClick = { onChangeAdultCount(count) },
-                                backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-                                textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                backgroundColor = Color.White,
+                                textColor = Color.Black,
                             )
                         }
                     }
@@ -232,13 +290,16 @@ fun SalesView(
                             .height(80.dp),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         textStyle = MaterialTheme.typography.titleLarge,
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.White
+                        ),
                         singleLine = true,
                     )
                     SquareButton(
                         text = stringResource(id = R.string.input),
                         onClick = onClickApplyAdultManualCountText,
-                        backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-                        textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        backgroundColor = Color.White,
+                        textColor = Color.Black,
                     )
                 }
                 FlowRow(
@@ -249,15 +310,15 @@ fun SalesView(
                             SquareButton(
                                 text = stringResource(id = R.string.child) + count,
                                 onClick = { onChangeChildCount(count) },
-                                backgroundColor = MaterialTheme.colorScheme.primary,
-                                textColor = MaterialTheme.colorScheme.onPrimary,
+                                backgroundColor = Color.Cyan,
+                                textColor = Color.Black,
                             )
                         } else {
                             SquareButton(
                                 text = stringResource(id = R.string.child) + count,
                                 onClick = { onChangeChildCount(count) },
-                                backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-                                textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                backgroundColor = Color.White,
+                                textColor = Color.Black,
                             )
                         }
                     }
@@ -274,8 +335,8 @@ fun SalesView(
                     SquareButton(
                         text = stringResource(id = R.string.input),
                         onClick = onClickApplyChildManualCountText,
-                        backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-                        textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        backgroundColor = Color.White,
+                        textColor = Color.Black,
                     )
                 }
             }
@@ -322,6 +383,13 @@ private fun SquareButton(
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
+        CustomBorder(
+            1.5.dp,
+            Color.Black,
+            Color.Black,
+            Color.Black,
+            Color.Black
+        )
         Text(
             text = text,
             style = MaterialTheme.typography.titleLarge,
@@ -330,18 +398,54 @@ private fun SquareButton(
     }
 }
 
+@Composable
+private fun CustomBorder(
+    widthDp: Dp,
+    topColor: Color,
+    bottomColor: Color,
+    leftColor: Color,
+    rightColor: Color,
+) {
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val width = widthDp.toPx()
+        // Boxの上と左の枠を黒に描画
+        drawRect(
+            color = topColor,
+            topLeft = Offset(0f, 0f),
+            size = Size(size.width, width),
+        )
+        drawRect(
+            color = leftColor,
+            topLeft = Offset(0f, 0f),
+            size = Size(width, size.height),
+        )
+        // Boxの下と右の辺を白に描画
+        drawRect(
+            color = bottomColor,
+            topLeft = Offset(0f, size.height - width),
+            size = Size(size.width, width),
+        )
+        drawRect(
+            color = rightColor,
+            topLeft = Offset(size.width - width, 0f),
+            size = Size(width, size.height),
+        )
+    }
+}
+
 @Preview(
     device = Devices.TABLET,
     showBackground = true,
     showSystemUi = true,
+    backgroundColor = 0xFFCCCCCC
 )
 @Composable
 private fun SalesViewPreview() {
     MaterialTheme {
         SalesView(
             bindModel = SalesBindModel(
-                adultCount = 1,
-                childCount = 2,
+                adultCount = 2,
+                childCount = 4,
                 selectedGoods = listOf(
                     PendingPurchase(
                         name = "test",
