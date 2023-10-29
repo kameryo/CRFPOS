@@ -43,4 +43,14 @@
     <string name="time">時間</string>
     <string name="sum">合計</string>
     <string name="sales_and_repay">売上/返金額</string>
+    <string name="time_example">20230000 00:00:00</string>
+    <string name="datetime">日時</string>
+    <string name="person_example">10人</string>
+    <string name="sales_example">99999円</string>
+    <string name="num_of_things">数量</string>
+    <string name="amount">金額</string>
+    <string name="unit_price">単価</string>
+    <string name="num_of_sales_text">%1$s円</string>
+    <string name="sub_total">小計</string>
+
 </resources>

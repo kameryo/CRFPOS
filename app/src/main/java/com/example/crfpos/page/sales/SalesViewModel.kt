@@ -107,7 +107,13 @@ class SalesViewModel @Inject constructor(
 
     fun addGoodsToSelectedGoods(goods: Goods) {
         val addGoods =
-            PendingPurchase(_id = goods._id, name = goods.name, price = goods.price, numOfOrder = 1)
+            PendingPurchase(
+                _id = goods._id,
+                name = goods.name,
+                unitPrice = goods.price,
+                numOfOrder = 1,
+                amount = goods.price
+            )
         mutableViewModelState.update {
             it.copy(
                 selectedGoodsList = (it.selectedGoodsList + listOf(
@@ -119,7 +125,7 @@ class SalesViewModel @Inject constructor(
     fun incrementGoods(selectedGoods: PendingPurchase) {
         val updatedSelectedGoodsList = mutableViewModelState.value.selectedGoodsList.map { item ->
             if (item._id == selectedGoods._id) {
-                item.copy(numOfOrder = item.numOfOrder + 1)
+                item.copy(numOfOrder = item.numOfOrder + 1, amount = item.amount + item.unitPrice)
             } else {
                 item
             }
@@ -130,7 +136,10 @@ class SalesViewModel @Inject constructor(
     fun decrementGoods(selectedGoods: PendingPurchase) {
         val updatedSelectedGoodsList = mutableViewModelState.value.selectedGoodsList.map { item ->
             if (item._id == selectedGoods._id) {
-                item.copy(numOfOrder = if (item.numOfOrder > 1) item.numOfOrder - 1 else 1)
+                item.copy(
+                    numOfOrder = if (item.numOfOrder > 1) item.numOfOrder - 1 else 1,
+                    amount = if (item.numOfOrder > 1) item.amount - item.unitPrice else item.amount
+                )
             } else {
                 item
             }

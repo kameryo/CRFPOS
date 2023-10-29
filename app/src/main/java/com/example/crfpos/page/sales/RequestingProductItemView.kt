@@ -30,8 +30,8 @@ private const val MAX_PRICE_DIGITS = 4
 @Composable
 fun RequestingProductItemView(
     productName: String,
-    quantity: Int,
-    price: Int,
+    numOfOrder: Int,
+    unitPrice: Int,
     modifier: Modifier = Modifier,
     onClickMinus: () -> Unit,
     onClickPlus: () -> Unit,
@@ -60,7 +60,7 @@ fun RequestingProductItemView(
                     Icon(imageVector = Icons.Default.Remove, contentDescription = null)
                 }
                 Text(
-                    text = quantity.toString(),
+                    text = numOfOrder.toString(),
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
                 )
@@ -73,7 +73,7 @@ fun RequestingProductItemView(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(id = R.string.yen, price),
+                    text = stringResource(id = R.string.yen, unitPrice),
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.width(
@@ -96,8 +96,8 @@ fun RequestingProductItemView(
 private fun RequestingProductItemViewPreview() {
     RequestingProductItemView(
         productName = "Product name",
-        quantity = 1,
-        price = 100,
+        numOfOrder = 1,
+        unitPrice = 100,
         onClickMinus = {},
         onClickPlus = {},
         onClickDelete = {},

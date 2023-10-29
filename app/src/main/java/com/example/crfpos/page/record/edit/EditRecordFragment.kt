@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crfpos.R
 import com.example.crfpos.databinding.EditRecordFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,13 +66,16 @@ class EditRecordFragment : Fragment(R.layout.edit_record_fragment) {
 //                        )
                         true
                     }
+
                     R.id.action_done -> {
                         true
                     }
+
                     R.id.action_back -> {
                         findNavController().popBackStack()
                         true
                     }
+
                     else -> false
                 }
             }
@@ -86,7 +90,6 @@ class EditRecordFragment : Fragment(R.layout.edit_record_fragment) {
             binding.personSumText.text = (record.adult + record.child).toString() + "人"
             binding.fareSalesText.text = record.fareSales.toString() + "円"
             binding.goodsSalesText.text = record.goodsSales.toString() + "円"
-            binding.otherSalesText.text = record.couponSales.toString() + "円"
         }
 
         vm.deleted.observe(viewLifecycleOwner) { deleted ->
@@ -96,6 +99,14 @@ class EditRecordFragment : Fragment(R.layout.edit_record_fragment) {
                 )
             }
         }
+
+        val adapter = EditRecordAdapter()
+
+        binding.recordGoodsRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.recordGoodsRecycler.adapter = adapter
+
+        adapter.submitList(args.record.goodsList)
     }
 
     private fun convertUnixTimeToDateTime(unixTime: Long): String {

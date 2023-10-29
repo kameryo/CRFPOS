@@ -9,7 +9,6 @@ import com.example.crfpos.databinding.RecordItemBinding
 import com.example.crfpos.model.record.Record
 import java.text.SimpleDateFormat
 import java.util.Date
-
 import java.util.Locale
 
 class RecordAdapter(
@@ -40,7 +39,6 @@ class RecordAdapter(
         private val binding: RecordItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        //        @RequiresApi(Build.VERSION_CODES.N)
         fun bindTo(record: Record) {
             binding.time.text = convertUnixTimeToDateTime(record.time)
             binding.total.text = record.total.toString() + "円"
@@ -49,7 +47,6 @@ class RecordAdapter(
             binding.personSum.text = (record.adult + record.child).toString() + "人"
             binding.fareSales.text = record.fareSales.toString() + "円"
             binding.goodsSales.text = record.goodsSales.toString() + "円"
-            binding.otherSales.text = record.couponSales.toString() + "円"
         }
 
         private fun convertUnixTimeToDateTime(unixTime: Long): String {

@@ -9,6 +9,7 @@ data class PendingPurchase(
     @PrimaryKey(autoGenerate = true)
     val _id: Int = 0,
     val name: String,
-    val price: Int,
-    val numOfOrder: Int
+    val unitPrice: Int,
+    val numOfOrder: Int,
+    val amount: Int
 ) : Parcelable

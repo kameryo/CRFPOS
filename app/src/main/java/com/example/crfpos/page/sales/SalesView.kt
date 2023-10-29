@@ -180,8 +180,8 @@ fun SalesView(
                 items(bindModel.selectedGoods) { selected ->
                     RequestingProductItemView(
                         productName = selected.name,
-                        quantity = selected.numOfOrder,
-                        price = selected.price,
+                        numOfOrder = selected.numOfOrder,
+                        unitPrice = selected.unitPrice,
                         onClickMinus = { onClickMinusForSelectedGoods(selected) },
                         onClickPlus = { onClickPlusForSelectedGoods(selected) },
                         onClickDelete = { onClickDeleteForSelectedGoods(selected) },
@@ -449,8 +449,9 @@ private fun SalesViewPreview() {
                 selectedGoods = listOf(
                     PendingPurchase(
                         name = "test",
-                        price = 100,
+                        unitPrice = 100,
                         numOfOrder = 1,
+                        amount = 100
                     )
                 ),
 //                selectedCoupon = listOf(

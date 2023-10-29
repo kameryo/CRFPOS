@@ -1,59 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?selectableItemBackground"
+    tools:ignore="RtlHardcoded">
+
 
     <TextView
-        android:id="@+id/textView10"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:gravity="center|right"
-        android:text="@string/toku_toku"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/purchase"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center|right"
-        android:text="@string/sum"
-        android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center|right"
-        android:text="@string/adult"
-        android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="230dp"
+        android:id="@+id/time"
+        android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:gravity="center|left"
-        android:text="@string/time"
-        android:textSize="34sp"
+        android:text="@string/datetime"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/adult"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center|right"
+        android:text="@string/adult"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/time"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/child"
         android:layout_width="90dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
@@ -61,54 +41,55 @@
         android:gravity="center|right"
         android:text="@string/child"
         android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintStart_toEndOf="@+id/adult"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="120dp"
+        android:id="@+id/personSum"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center|right"
+        android:text="@string/sum"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/child"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fareSales"
+        android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:gravity="center|right"
-        android:text="@string/sales_and_repay"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/name"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:gravity="center|right"
         android:text="@string/fare"
         android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView10"
+        app:layout_constraintStart_toEndOf="@+id/personSum"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/purchase"
-        android:layout_width="120dp"
+        android:id="@+id/goodsSales"
+        android:layout_width="150dp"
         android:layout_height="50dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
         android:gravity="center|right"
         android:text="@string/goods_sales"
         android:textSize="30sp"
-        app:layout_constraintEnd_toStartOf="@+id/remain"
+        app:layout_constraintStart_toEndOf="@+id/fareSales"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/remain"
-        android:layout_width="80dp"
+        android:id="@+id/total"
+        android:layout_width="150dp"
         android:layout_height="50dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="修正"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center|right"
+        android:text="@string/sum"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/goodsSales"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -122,6 +103,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/time" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
