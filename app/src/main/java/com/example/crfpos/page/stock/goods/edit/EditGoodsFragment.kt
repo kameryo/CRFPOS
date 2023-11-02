@@ -94,7 +94,7 @@ class EditGoodsFragment : Fragment(R.layout.edit_goods_fragment) {
         vm.deleted.observe(viewLifecycleOwner) { deleted ->
             if (deleted) {
                 findNavController().popBackStack(
-                    R.id.stockFragment, false
+                    R.id.goodsFragment, false
                 )
             }
         }

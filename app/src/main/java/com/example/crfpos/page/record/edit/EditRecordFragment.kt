@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crfpos.R
 import com.example.crfpos.databinding.EditRecordFragmentBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -61,6 +62,9 @@ class EditRecordFragment : Fragment(R.layout.edit_record_fragment) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_delete -> {
+                        findNavController().navigate(
+                            R.id.action_editRecordFragment_to_deleteRecodeConfirmDialogFragment
+                        )
 //                        findNavController().navigate(
 //                            R.id.action_editStockFragment_to_confirmDialogFragment
 //                        )
@@ -90,6 +94,13 @@ class EditRecordFragment : Fragment(R.layout.edit_record_fragment) {
             binding.personSumText.text = (record.adult + record.child).toString() + "人"
             binding.fareSalesText.text = record.fareSales.toString() + "円"
             binding.goodsSalesText.text = record.goodsSales.toString() + "円"
+        }
+
+        vm.errorMessage.observe(viewLifecycleOwner) { msg ->
+            if (msg.isEmpty()) return@observe
+
+            Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show()
+            vm.errorMessage.value = ""
         }
 
         vm.deleted.observe(viewLifecycleOwner) { deleted ->

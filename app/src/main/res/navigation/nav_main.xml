@@ -80,6 +80,9 @@
         <argument
             android:name="record"
             app:argType="com.example.crfpos.model.record.Record" />
+        <action
+            android:id="@+id/action_editRecordFragment_to_deleteRecodeConfirmDialogFragment"
+            app:destination="@id/deleteRecodeConfirmDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/exportConfirmFragment"
@@ -93,7 +96,7 @@
         android:id="@+id/addGoodsFragment"
         android:name="com.example.crfpos.page.stock.goods.add.AddGoodsFragment"
         android:label="AddGoodsFragment" />
-    <fragment
+    <dialog
         android:id="@+id/confirmDialogFragment"
         android:name="com.example.crfpos.page.stock.goods.edit.dialog.ConfirmDialogFragment"
         android:label="ConfirmDialogFragment" />
@@ -103,7 +106,11 @@
         android:label="EditGoodsFragment" >
         <action
             android:id="@+id/action_editGoodsFragment_to_confirmDialogFragment"
-            app:destination="@id/confirmDialogFragment" />
+            app:destination="@id/confirmDialogFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="goods"
             app:argType="com.example.crfpos.model.goods.Goods" />
@@ -154,4 +161,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+    <dialog
+        android:id="@+id/deleteRecodeConfirmDialogFragment"
+        android:name="com.example.crfpos.page.record.edit.dialog.DeleteRecodeConfirmDialogFragment"
+        android:label="DeleteRecodeConfirmDialogFragment" />
 </navigation>
