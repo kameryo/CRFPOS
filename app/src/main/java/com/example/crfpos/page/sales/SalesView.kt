@@ -22,7 +22,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -48,6 +47,7 @@ import com.example.crfpos.model.goods.Goods
 import com.example.crfpos.model.selected.PendingPurchase
 
 private const val MAX_PRICE_DIGITS = 7
+private const val MAX_TICKET_DIGITS = 2
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -164,18 +164,6 @@ fun SalesView(
                     )
                 }
             }
-//            LazyColumn {
-//                items(bindModel.selectedCoupon) { selected ->
-//                    RequestingProductItemView(
-//                        productName = selected.name,
-//                        quantity = selected.numOfOrder,
-//                        price = selected.price,
-//                        onClickMinus = { onClickMinusForSelectedCoupon(selected) },
-//                        onClickPlus = { onClickPlusForSelectedCoupon(selected) },
-//                        onClickDelete = { onClickDeleteForSelectedCoupon(selected) },
-//                    )
-//                }
-//            }
             LazyColumn {
                 items(bindModel.selectedGoods) { selected ->
                     RequestingProductItemView(
@@ -190,7 +178,7 @@ fun SalesView(
             }
         }
         Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(25.dp),
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -215,24 +203,7 @@ fun SalesView(
                             textAlign = TextAlign.End
                         )
                     }
-//                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-//                        Text(
-//                            text = stringResource(id = R.string.toku_toku),
-//                            style = MaterialTheme.typography.displaySmall,
-//                        )
-//                        Text(
-//                            text = stringResource(id = R.string.yen, bindModel.subtotalCoupon),
-//                            style = MaterialTheme.typography.displaySmall,
-//                            modifier = Modifier
-//                                .width(
-//                                    // MAX_PRICE_DIGITS分のwidthを確保する
-//                                    with(LocalDensity.current) {
-//                                        MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_PRICE_DIGITS
-//                                    }
-//                                ),
-//                            textAlign = TextAlign.End
-//                        )
-//                    }
+                    Spacer(modifier = Modifier.height(15.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         Text(
                             text = stringResource(id = R.string.goods_sales),
@@ -252,12 +223,97 @@ fun SalesView(
                         )
                     }
                 }
-                Button(onClick = onClickAdjust) {
-                    Text(
-                        text = stringResource(id = R.string.adjust),
-                        style = MaterialTheme.typography.displayMedium,
-                    )
+                Column {
+                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        Text(
+                            text = stringResource(id = R.string.sum),
+                            style = MaterialTheme.typography.displaySmall,
+                        )
+                        Text(
+                            text = stringResource(id = R.string.yen, bindModel.subtotalFare + bindModel.subtotalGoods),
+                            style = MaterialTheme.typography.displaySmall,
+                            modifier = Modifier
+                                .width(
+                                    // MAX_PRICE_DIGITS分のwidthを確保する
+                                    with(LocalDensity.current) {
+                                        MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_PRICE_DIGITS
+                                    }
+                                ),
+                            textAlign = TextAlign.End
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        if (bindModel.subtotalFare != 0) {
+                            Text(
+                                text = stringResource(id = R.string.normal_ticket),
+                                fontSize = 20.sp,
+                            )
+                            Text(
+                                text = stringResource(
+                                    id = R.string.mai,
+                                    bindModel.subtotalFare / 100
+                                ),
+                                fontSize = 20.sp,
+                                modifier = Modifier
+                                    .width(
+                                        // MAX_TICKET_DIGITS分のwidthを確保する
+                                        with(LocalDensity.current) {
+                                            MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_TICKET_DIGITS
+                                        }
+                                    ),
+                                textAlign = TextAlign.End
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = stringResource(id = R.string.accompany_ticket),
+                                fontSize = 20.sp
+                            )
+                            Text(
+                                text = stringResource(
+                                    id = R.string.mai,
+                                    bindModel.adultCount + bindModel.childCount - bindModel.subtotalFare / 100
+                                ),
+                                fontSize = 20.sp,
+                                modifier = Modifier
+                                    .width(
+                                        // MAX_TICKET_DIGITS分のwidthを確保する
+                                        with(LocalDensity.current) {
+                                            MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_TICKET_DIGITS
+                                        }
+                                    ),
+                                textAlign = TextAlign.End
+                            )
+                        }
+                    }
+                    if (bindModel.selectedGoods.any{it.name=="運転体験券"}) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                            Text(
+                                text = stringResource(id = R.string.driving_ticket),
+                                fontSize = 20.sp
+                            )
+                            Text(
+                                text = stringResource(id = R.string.mai, bindModel.selectedGoods.find { it.name == "運転体験券" }?.numOfOrder ?: 0
+                                ),
+                                fontSize = 20.sp,
+                                modifier = Modifier
+                                    .width(
+                                        // MAX_PRICE_DIGITS分のwidthを確保する
+                                        with(LocalDensity.current) {
+                                            MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_TICKET_DIGITS
+                                        }
+                                    ),
+                                textAlign = TextAlign.End
+                            )
+                        }
+                    }
                 }
+                AdjustButton(
+                    text = stringResource(id = R.string.adjust),
+                    onClick = onClickAdjust,
+                    backgroundColor = Color.Yellow,
+                    textColor = Color.Black,
+                )
             }
             Column(
                 verticalArrangement = Arrangement.spacedBy(2.dp),
@@ -340,17 +396,7 @@ fun SalesView(
                     )
                 }
             }
-//            LazyVerticalStaggeredGrid(
-//                columns = StaggeredGridCells.Adaptive(120.dp),
-//            ) {
-//                items(bindModel.coupon) { coupon ->
-//                    GoodsItemView(
-//                        name = coupon.name,
-//                        price = coupon.price,
-//                        onClick = { onClickCouponFromStocks(coupon) },
-//                    )
-//                }
-//            }
+            Spacer(modifier = Modifier.width(15.dp))
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Adaptive(120.dp),
             ) {
@@ -376,8 +422,8 @@ private fun SquareButton(
 ) {
     Box(
         modifier = modifier
-            .width(110.dp)
-            .height(80.dp)
+            .width(120.dp)
+            .height(85.dp)
             .padding(1.dp)
             .background(backgroundColor)
             .clickable(onClick = onClick),
@@ -394,6 +440,39 @@ private fun SquareButton(
             text = text,
             style = MaterialTheme.typography.titleLarge,
             color = textColor,
+        )
+    }
+}
+
+@Composable
+private fun AdjustButton(
+    text: String,
+    textColor: Color,
+    backgroundColor: Color,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .width(180.dp)
+            .height(120.dp)
+            .padding(1.dp)
+            .background(backgroundColor)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
+    ) {
+        CustomBorder(
+            2.dp,
+            Color.Black,
+            Color.Black,
+            Color.Black,
+            Color.Black
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.titleLarge,
+            color = textColor,
+            fontSize = 40.sp
         )
     }
 }
@@ -449,6 +528,12 @@ private fun SalesViewPreview() {
                 selectedGoods = listOf(
                     PendingPurchase(
                         name = "test",
+                        unitPrice = 100,
+                        numOfOrder = 1,
+                        amount = 100
+                    ),
+                    PendingPurchase(
+                        name = "運転体験券",
                         unitPrice = 100,
                         numOfOrder = 1,
                         amount = 100

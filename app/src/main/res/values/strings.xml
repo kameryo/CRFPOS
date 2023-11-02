@@ -25,6 +25,7 @@
     <string name="manage_sales">販売</string>
     <string name="export">export</string>
     <string name="yen">%d円</string>
+    <string name="mai">%d枚</string>
     <string name="input">入力</string>
     <string name="adjust">清算</string>
     <string name="fare">運賃</string>
@@ -52,5 +53,8 @@
     <string name="unit_price">単価</string>
     <string name="num_of_sales_text">%1$s円</string>
     <string name="sub_total">小計</string>
+    <string name="normal_ticket">硬券</string>
+    <string name="accompany_ticket">付添券</string>
+    <string name="driving_ticket">運転体験券</string>
 
 </resources>
