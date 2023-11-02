@@ -65,9 +65,6 @@ class EditRecordFragment : Fragment(R.layout.edit_record_fragment) {
                         findNavController().navigate(
                             R.id.action_editRecordFragment_to_deleteRecodeConfirmDialogFragment
                         )
-//                        findNavController().navigate(
-//                            R.id.action_editStockFragment_to_confirmDialogFragment
-//                        )
                         true
                     }
 
