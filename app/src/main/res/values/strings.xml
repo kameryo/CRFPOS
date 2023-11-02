@@ -53,8 +53,8 @@
     <string name="unit_price">単価</string>
     <string name="num_of_sales_text">%1$s円</string>
     <string name="sub_total">小計</string>
-    <string name="normal_ticket">硬券</string>
+    <string name="normal_ticket">硬　券</string>
     <string name="accompany_ticket">付添券</string>
-    <string name="driving_ticket">運転体験券</string>
+    <string name="driving_ticket">運転券</string>
 
 </resources>

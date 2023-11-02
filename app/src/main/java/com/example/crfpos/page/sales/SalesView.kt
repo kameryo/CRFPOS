@@ -47,7 +47,7 @@ import com.example.crfpos.model.goods.Goods
 import com.example.crfpos.model.selected.PendingPurchase
 
 private const val MAX_PRICE_DIGITS = 7
-private const val MAX_TICKET_DIGITS = 2
+private const val MAX_TICKET_DIGITS = 4
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -188,11 +188,11 @@ fun SalesView(
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         Text(
                             text = stringResource(id = R.string.fare),
-                            style = MaterialTheme.typography.displaySmall,
+                            fontSize = 25.sp,
                         )
                         Text(
                             text = stringResource(id = R.string.yen, bindModel.subtotalFare),
-                            style = MaterialTheme.typography.displaySmall,
+                            fontSize = 25.sp,
                             modifier = Modifier
                                 .width(
                                     // MAX_PRICE_DIGITS分のwidthを確保する
@@ -203,15 +203,37 @@ fun SalesView(
                             textAlign = TextAlign.End
                         )
                     }
-                    Spacer(modifier = Modifier.height(15.dp))
+                    Spacer(modifier = Modifier.height(1.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         Text(
                             text = stringResource(id = R.string.goods_sales),
-                            style = MaterialTheme.typography.displaySmall,
+                            fontSize = 25.sp,
                         )
                         Text(
                             text = stringResource(id = R.string.yen, bindModel.subtotalGoods),
-                            style = MaterialTheme.typography.displaySmall,
+                            fontSize = 25.sp,
+                            modifier = Modifier
+                                .width(
+                                    // MAX_PRICE_DIGITS分のwidthを確保する
+                                    with(LocalDensity.current) {
+                                        MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_PRICE_DIGITS
+                                    }
+                                ),
+                            textAlign = TextAlign.End
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(1.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(
+                            text = stringResource(id = R.string.sum),
+                            fontSize = 30.sp,
+                        )
+                        Text(
+                            text = stringResource(
+                                id = R.string.yen,
+                                bindModel.subtotalFare + bindModel.subtotalGoods
+                            ),
+                            fontSize = 30.sp,
                             modifier = Modifier
                                 .width(
                                     // MAX_PRICE_DIGITS分のwidthを確保する
@@ -224,89 +246,78 @@ fun SalesView(
                     }
                 }
                 Column {
-                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        Text(
-                            text = stringResource(id = R.string.sum),
-                            style = MaterialTheme.typography.displaySmall,
-                        )
-                        Text(
-                            text = stringResource(id = R.string.yen, bindModel.subtotalFare + bindModel.subtotalGoods),
-                            style = MaterialTheme.typography.displaySmall,
-                            modifier = Modifier
-                                .width(
-                                    // MAX_PRICE_DIGITS分のwidthを確保する
-                                    with(LocalDensity.current) {
-                                        MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_PRICE_DIGITS
-                                    }
-                                ),
-                            textAlign = TextAlign.End
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(10.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        if (bindModel.subtotalFare != 0) {
-                            Text(
-                                text = stringResource(id = R.string.normal_ticket),
-                                fontSize = 20.sp,
-                            )
-                            Text(
-                                text = stringResource(
-                                    id = R.string.mai,
-                                    bindModel.subtotalFare / 100
-                                ),
-                                fontSize = 20.sp,
-                                modifier = Modifier
-                                    .width(
-                                        // MAX_TICKET_DIGITS分のwidthを確保する
-                                        with(LocalDensity.current) {
-                                            MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_TICKET_DIGITS
-                                        }
-                                    ),
-                                textAlign = TextAlign.End
-                            )
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Text(
-                                text = stringResource(id = R.string.accompany_ticket),
-                                fontSize = 20.sp
-                            )
-                            Text(
-                                text = stringResource(
-                                    id = R.string.mai,
-                                    bindModel.adultCount + bindModel.childCount - bindModel.subtotalFare / 100
-                                ),
-                                fontSize = 20.sp,
-                                modifier = Modifier
-                                    .width(
-                                        // MAX_TICKET_DIGITS分のwidthを確保する
-                                        with(LocalDensity.current) {
-                                            MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_TICKET_DIGITS
-                                        }
-                                    ),
-                                textAlign = TextAlign.End
-                            )
+                        Column {
+                            if (bindModel.subtotalFare != 0) {
+                                Text(
+                                    text = stringResource(id = R.string.normal_ticket),
+                                    fontSize = 27.sp,
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.accompany_ticket),
+                                    fontSize = 27.sp
+                                )
+                            }
+                            if (bindModel.selectedGoods.any{it.name=="運転体験券"}) {
+                                Text(
+                                    text = stringResource(id = R.string.driving_ticket),
+                                    fontSize = 27.sp
+                                )
+                            }
                         }
-                    }
-                    if (bindModel.selectedGoods.any{it.name=="運転体験券"}) {
-                        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                            Text(
-                                text = stringResource(id = R.string.driving_ticket),
-                                fontSize = 20.sp
-                            )
-                            Text(
-                                text = stringResource(id = R.string.mai, bindModel.selectedGoods.find { it.name == "運転体験券" }?.numOfOrder ?: 0
-                                ),
-                                fontSize = 20.sp,
-                                modifier = Modifier
-                                    .width(
-                                        // MAX_PRICE_DIGITS分のwidthを確保する
-                                        with(LocalDensity.current) {
-                                            MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_TICKET_DIGITS
-                                        }
+                        Column {
+                            if (bindModel.subtotalFare != 0) {
+                                Text(
+                                    text = stringResource(
+                                        id = R.string.mai,
+                                        bindModel.subtotalFare / 100
                                     ),
-                                textAlign = TextAlign.End
-                            )
+                                    fontSize = 27.sp,
+                                    modifier = Modifier
+                                        .width(
+                                            // MAX_TICKET_DIGITS分のwidthを確保する
+                                            with(LocalDensity.current) {
+                                                MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_TICKET_DIGITS
+                                            }
+                                        ),
+                                    textAlign = TextAlign.End
+                                )
+                                Text(
+                                    text = stringResource(
+                                        id = R.string.mai,
+                                        bindModel.adultCount + bindModel.childCount - bindModel.subtotalFare / 100
+                                    ),
+                                    fontSize = 27.sp,
+                                    modifier = Modifier
+                                        .width(
+                                            // MAX_TICKET_DIGITS分のwidthを確保する
+                                            with(LocalDensity.current) {
+                                                MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_TICKET_DIGITS
+                                            }
+                                        ),
+                                    textAlign = TextAlign.End
+                                )
+                            }
+                            if (bindModel.selectedGoods.any{it.name=="運転体験券"}) {
+                                Text(
+                                    text = stringResource(id = R.string.mai, bindModel.selectedGoods.find { it.name == "運転体験券" }?.numOfOrder ?: 0
+                                    ),
+                                    fontSize = 27.sp,
+                                    modifier = Modifier
+                                        .width(
+                                            // MAX_PRICE_DIGITS分のwidthを確保する
+                                            with(LocalDensity.current) {
+                                                MaterialTheme.typography.titleLarge.fontSize.toDp() * MAX_TICKET_DIGITS
+                                            }
+                                        ),
+                                    textAlign = TextAlign.End
+                                )
+                            }
                         }
+
                     }
+
+                    Spacer(modifier = Modifier.height(2.dp))
                 }
                 AdjustButton(
                     text = stringResource(id = R.string.adjust),
@@ -472,7 +483,7 @@ private fun AdjustButton(
             text = text,
             style = MaterialTheme.typography.titleLarge,
             color = textColor,
-            fontSize = 40.sp
+            fontSize = 50.sp
         )
     }
 }
@@ -548,7 +559,7 @@ private fun SalesViewPreview() {
 //                ),
                 subtotalFare = 100,
 //                subtotalCoupon = 0,
-                subtotalGoods = 30000,
+                subtotalGoods = 1000,
                 goods = List(20) {
                     Goods(
                         name = "test",
