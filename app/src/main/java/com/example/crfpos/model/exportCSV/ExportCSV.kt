@@ -14,7 +14,7 @@ class ExportCSV {
 
             File(context?.filesDir, fileName).writer().use {
 
-                it.write("ID,Time,Total,Fare Sales,Other Sales,Goods Sales,Adult,Child,Memo\n")
+                it.write("ID,Time,Total,Fare Sales,Goods Sales,Adult,Child,\n")
 
                 for (record in recordsList) {
                     // 各行のデータを書き込む
@@ -26,15 +26,20 @@ class ExportCSV {
                     it.write(",")
                     it.write(record.fareSales.toString())
                     it.write(",")
-                    it.write(record.couponSales.toString())
-                    it.write(",")
                     it.write(record.goodsSales.toString())
                     it.write(",")
                     it.write(record.adult.toString())
                     it.write(",")
                     it.write(record.child.toString())
                     it.write(",")
-                    it.write(record.memo)
+                    for (goods in record.goodsList!!) {
+                        it.write(goods.name)
+                        it.write(",")
+                        it.write(goods.numOfOrder.toString())
+                        it.write(",")
+                        it.write(goods.amount.toString())
+                        it.write(",")
+                    }
                     it.write("\n")
                 }
 
