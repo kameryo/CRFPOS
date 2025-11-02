@@ -1,235 +1,90 @@
 package com.example.feature_record
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.List
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.model.Record
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-
-@Composable
-fun RecordScreen(
-    back: () -> Unit,
-    viewModel: RecordViewModel,
-    toEdit: (Long) -> Unit,
-    toSummarizeRecord: () -> Unit
-) {
-    val items = viewModel.items.collectAsState(initial = emptyList())
-    RecordScreen(
-        recordList = items.value,
-        back = back,
-        toEdit = toEdit,
-        toSummarizeRecord = toSummarizeRecord,
-    )
-
-}
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateSetOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateSet
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toUri
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RecordScreen(
-    recordList: List<Record>,
-    back: () -> Unit,
-    toEdit: (Long) -> Unit,
-    toSummarizeRecord: () -> Unit,
+fun RecordScreen(
+    viewModel: RecordScreenViewModel,
+    onClickBack: () -> Unit,
+    onClickRecordItem: (recordId: Long) -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.record_manage)) },
-                navigationIcon = {
-                    IconButton(onClick = back) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                actions = {
-                    IconButton(onClick = toSummarizeRecord) {
-                        Icon(Icons.AutoMirrored.Filled.List, contentDescription = "Add")
-                    }
-                }
-            )
+    val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val pendingSaveTargetDates: SnapshotStateSet<String> = remember { mutableStateSetOf() }
+
+    val dateList by viewModel.dateList.collectAsState(emptyList())
+    var showExportTargetDateSelectionDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        launch {
+            viewModel.exportToCsvSucceededFlow.collect {
+                snackbarHostState.showSnackbar("CSVのエクスポートに成功しました")
+            }
         }
-    ) { paddingValues ->
-        RecordListContent(
-            modifier = Modifier.padding(paddingValues),
-            recordList = recordList,
-            toEdit = toEdit
+
+        launch {
+            viewModel.exportToCsvFailedFlow.collect {
+                snackbarHostState.showSnackbar("CSVのエクスポートに失敗しました: $it")
+            }
+        }
+    }
+
+    val fileSavingTargetDirectoryPickerLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+            if (uri == null) return@rememberLauncherForActivityResult
+            viewModel.exportRecordToCSV(
+                exportTargetDates = pendingSaveTargetDates,
+                outputTargetDirUri = uri,
+                contentResolver = context.contentResolver,
+            )
+            showExportTargetDateSelectionDialog = false
+        }
+
+    if (showExportTargetDateSelectionDialog) {
+        CSVExportDateSelectionDialog(
+            exportableDates = dateList.map { it.date },
+            onDismissRequest = { showExportTargetDateSelectionDialog = false },
+            onClickCancel = { showExportTargetDateSelectionDialog = false },
+            onClickExport = { selectedDates ->
+                pendingSaveTargetDates.addAll(selectedDates)
+                val documentDirUri =
+                    "content://com.android.externalstorage.documents/document/primary:Documents".toUri()
+                fileSavingTargetDirectoryPickerLauncher.launch(documentDirUri)
+                Toast.makeText(
+                    context,
+                    "エクスポート先のディレクトリを選択してください",
+                    Toast.LENGTH_SHORT,
+                ).show()
+            },
         )
     }
-}
 
-@Composable
-fun RecordListContent(
-    modifier: Modifier = Modifier,
-    recordList: List<Record>,
-    toEdit: (Long) -> Unit,
-) {
-    Column {
-        Row(
-            modifier = modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(id = R.string.date_time),
-                fontSize = 20.sp,
-                modifier = Modifier.width(250.dp)
-            )
-
-            Text(
-                text = stringResource(id = R.string.total),
-                fontSize = 20.sp,
-                modifier = Modifier.width(120.dp)
-            )
-
-            Text(
-                text = stringResource(id = R.string.goods_income),
-                fontSize = 20.sp,
-                modifier = Modifier.width(120.dp)
-            )
-
-            Text(
-                text = stringResource(id = R.string.fare_income),
-                fontSize = 20.sp,
-                modifier = Modifier.width(100.dp)
-            )
-
-            Text(
-                text = stringResource(id = R.string.adult),
-                fontSize = 20.sp,
-                modifier = Modifier.width(50.dp)
-            )
-
-            Text(
-                text = stringResource(id = R.string.child),
-                fontSize = 20.sp,
-                modifier = Modifier.width(50.dp)
-            )
-        }
-
-        LazyColumn {
-            items(
-                count = recordList.size,
-                key = { index -> recordList[index].id },
-                itemContent = {
-                    RecordListItem(
-                        record = recordList[it],
-                        onClick = {
-                            toEdit(recordList[it].id)
-                        }
-
-                    )
-                }
-            )
-        }
-
-    }
-
-}
-
-@Composable
-private fun RecordListItem(
-    record: Record,
-    onClick: () -> Unit,
-) {
-    ListItem(
-        headlineContent = {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = convertUnixTimeToDateTime(record.time / 1000),
-                    fontSize = 20.sp,
-                    modifier = Modifier.width(230.dp)
-                )
-
-                Text(
-                    text = stringResource(id = R.string.yen, record.total),
-                    fontSize = 20.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-
-                Text(
-                    text = stringResource(id = R.string.yen, record.goodsSales),
-                    fontSize = 20.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-
-                Text(
-                    text = stringResource(id = R.string.yen, record.fareSales),
-                    fontSize = 20.sp,
-                    modifier = Modifier.width(80.dp)
-                )
-
-                Text(
-                    text = record.adult.toString(),
-                    fontSize = 20.sp,
-                    modifier = Modifier.width(50.dp)
-                )
-
-                Text(
-                    text = record.child.toString(),
-                    fontSize = 20.sp,
-                    modifier = Modifier.width(50.dp)
-                )
-
-                LazyRow {
-                    record.goodsList?.let { it ->
-                        items(
-                            count = it.size,
-                            key = { index -> record.goodsList!![index].goods.id },
-                            itemContent = {
-                                Text(
-                                    text = record.goodsList!![it].goods.name,
-                                    fontSize = 15.sp,
-                                    modifier = Modifier.width(110.dp)
-                                )
-                                Text(
-                                    text = stringResource(
-                                        id = R.string.ko,
-                                        record.goodsList!![it].quantity
-                                    ),
-                                    fontSize = 15.sp,
-                                    modifier = Modifier.width(50.dp)
-                                )
-                            }
-                        )
-                    }
-                }
-
-
-            }
-        },
-
-        modifier = Modifier.clickable {
-            onClick()
-        }
+    RecordScreenView(
+        displayMode = viewModel.displayMode,
+        recordList = viewModel.rawRecords.collectAsState(emptyList()).value,
+        recordDateList = dateList,
+        dailyGoodsSalesSummary = viewModel.dailyGoodsSalesSummary.collectAsState(emptyList()).value,
+        snackbarHostState = snackbarHostState,
+        onClickBack = onClickBack,
+        onSelectDisplayMode = viewModel::updateDisplayMode,
+        onClickRecordItem = { onClickRecordItem(it.id) },
+        onClickExportCSV = { showExportTargetDateSelectionDialog = true },
     )
-    HorizontalDivider()
-}
-
-private fun convertUnixTimeToDateTime(unixTime: Long): String {
-    val date = Date(unixTime * 1000)
-    val formatter = SimpleDateFormat("yyyyMMdd HH:mm:ss", Locale.getDefault())
-    return formatter.format(date)
 }
