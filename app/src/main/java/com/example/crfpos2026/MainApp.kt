@@ -1,4 +1,4 @@
-package com.example.crfpos2025
+package com.example.crfpos2026
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel

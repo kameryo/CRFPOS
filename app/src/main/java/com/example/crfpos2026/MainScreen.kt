@@ -1,4 +1,4 @@
-package com.example.crfpos2025
+package com.example.crfpos2026
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.crfpos2025.ui.theme.CRFPOS2024Theme
+import com.example.crfpos2026.ui.theme.CRFPOS2024Theme
 
 @Composable
 fun MainScreen(
@@ -219,7 +219,7 @@ private fun CustomBorder(
 
 @Composable
 @Preview(
-    device = "spec:width=1920px,height=1200px,dpi=230",
+    device = "spec:width=2000px,height=1200px,dpi=284",
     showBackground = true,
     showSystemUi = true,
 //    backgroundColor = 0xFFFFFFFF

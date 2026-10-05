@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.crfpos2025"
+    namespace = "com.example.crfpos2026"
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.example.crfpos2025"
+        applicationId = "com.example.crfpos2026"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
